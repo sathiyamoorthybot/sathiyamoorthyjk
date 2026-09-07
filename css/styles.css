@@ -32,7 +32,7 @@
   --glass-shadow: 0 20px 50px -24px rgba(0, 8, 26, 0.85);
   --glass-inset:  inset 0 1px 0 rgba(255, 255, 255, 0.10);
 
-  --maxw: 1180px;
+  --maxw: 1400px;
   --pad: clamp(20px, 5vw, 80px);
   --gutter: 0px;        /* right rail reserve; set per breakpoint by .dial */
 
@@ -129,7 +129,7 @@ em { font-style: italic; color: var(--accent); }
   html { scroll-behavior: auto; }
   /* the scroll engine also bails out on its own — this is the CSS backstop */
   .hero__glow, .hero__portrait-img, .stat__num, .section__index,
-  .skills__portrait img, .contact__portrait, .work-video__thumb {
+  .contact__portrait, .work-video__thumb {
     --par-y: 0px;
   }
 }
@@ -312,6 +312,8 @@ em { font-style: italic; color: var(--accent); }
   -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
           mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  /* right stop is pulled in by --gutter (set below for desktop) so the
+     scrolling names never reach the dial */
 }
 .marquee__track {
   display: inline-flex; align-items: center; gap: 26px; white-space: nowrap;
@@ -395,7 +397,7 @@ em { font-style: italic; color: var(--accent); }
 
 .page-head {
   position: relative; overflow: hidden;
-  padding: 150px var(--pad) 40px;
+  padding: 104px var(--pad) 26px;
   max-width: var(--maxw); margin: 0 auto;
 }
 .page-head__eyebrow {
@@ -411,7 +413,20 @@ em { font-style: italic; color: var(--accent); }
   font-size: clamp(2.6rem, 7vw, 5rem); line-height: 0.98;
   letter-spacing: -0.02em; margin-bottom: 18px;
 }
-.page-head__lead { font-size: clamp(1rem, 1.5vw, 1.18rem); color: #bbcae3; max-width: 600px; }
+.page-head__lead { font-size: clamp(1rem, 1.5vw, 1.18rem); color: #bbcae3; max-width: 62ch; }
+/* Title and blurb share one row: the heading sets the left column, the
+   paragraph sits beside it and baselines with it. */
+@media (min-width: 901px) {
+  .page-head__inner {
+    display: grid; grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "eyebrow eyebrow" "title lead";
+    column-gap: clamp(30px, 4vw, 60px); align-items: end;
+  }
+  .page-head__eyebrow { grid-area: eyebrow; }
+  .page-head__title   { grid-area: title; margin-bottom: 0; }
+  .page-head__lead    { grid-area: lead; padding-bottom: 0.5rem; }
+}
+
 
 /* ---------- My Work page: gallery ---------- */
 .works-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
@@ -428,11 +443,12 @@ em { font-style: italic; color: var(--accent); }
 
 .works-grid {
   display: grid; gap: 24px; align-items: start;
-  /* four across: one track per card, landscape or Short. `dense` keeps the
-     rows packed when the two orientations produce different heights. */
+  /* Landscape: four across. Verticals are narrow, so the Vertical tab gets
+     six. Only one orientation shows at a time, so the track count can just
+     follow the active filter. */
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-flow: dense;
 }
+.works-grid--v { grid-template-columns: repeat(6, 1fr); gap: 18px; }
 .work-video { display: flex; flex-direction: column; gap: 12px; grid-column: span 1; }
 .work-video__frame {
   position: relative; aspect-ratio: 16 / 9; width: 100%;
@@ -578,21 +594,29 @@ body.vbox-open { overflow: hidden; }
 }
 .works-back a:hover { color: var(--accent); }
 
-@media (max-width: 1000px) { .works-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 760px)  { .works-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px)  {
+@media (max-width: 1200px) {
+  .works-grid { grid-template-columns: repeat(3, 1fr); }
+  .works-grid--v { grid-template-columns: repeat(4, 1fr); }
+  .skills__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 760px) {
+  .works-grid { grid-template-columns: repeat(2, 1fr); }
+  .works-grid--v { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 480px) {
   .works-grid { grid-template-columns: 1fr; gap: 26px; }
+  .works-grid--v { grid-template-columns: repeat(2, 1fr); }
   .work-video--v .work-video__frame { max-width: 300px; margin: 0 auto; }
 }
 @media (max-width: 760px) {
-  .page-head { padding-top: 120px; }
+  .page-head { padding-top: 88px; }
 }
 
 /* ---------- Selected Work ---------- */
 .work__list { display: flex; flex-direction: column; }
 .work__cta { margin-top: 32px; }
 .work-card {
-  display: grid; grid-template-columns: 1fr 1.6fr; gap: 8px 30px;
+  display: grid; grid-template-columns: 0.85fr 2.4fr; gap: 8px 34px;
   align-items: start;
   padding: 30px 8px; border-top: 1px solid var(--line);
   transition: background 0.4s ease, padding-left 0.4s var(--ease);
@@ -631,7 +655,7 @@ body.vbox-open { overflow: hidden; }
   font-size: clamp(1.4rem, 2.8vw, 2rem); line-height: 1.1;
   letter-spacing: -0.01em; margin-bottom: 14px;
 }
-.work-card__desc { font-size: 15.5px; color: #a9b8d4; margin-bottom: 20px; max-width: 560px; }
+.work-card__desc { font-size: 16px; color: #a9b8d4; margin-bottom: 20px; max-width: 88ch; line-height: 1.62; }
 .work-card__foot { display: flex; flex-wrap: wrap; gap: 8px; }
 .work-card__foot span {
   font-size: 12px; color: var(--muted); border: 1px solid var(--glass-line);
@@ -665,26 +689,51 @@ body.vbox-open { overflow: hidden; }
   -webkit-backdrop-filter: var(--blur-soft); backdrop-filter: var(--blur-soft);
   box-shadow: var(--glass-inset);
   border-radius: 18px; padding: 22px 24px;
+  /* Role and employer on the left, the description beside them, so a wide
+     card fills instead of leaving a tall empty column on its right. */
+  display: grid; grid-template-columns: minmax(200px, 0.85fr) minmax(0, 1.5fr);
+  gap: 6px clamp(24px, 3vw, 40px); align-items: start;
 }
 .timeline__content h3 {
   font-family: var(--font-display); font-weight: 600; font-size: 1.3rem;
   margin-bottom: 4px; letter-spacing: -0.01em;
 }
-.timeline__org { font-size: 14px; color: var(--muted); margin-bottom: 10px; }
-.timeline__content p:last-child { font-size: 14.5px; color: #a9b8d4; max-width: 600px; }
+.timeline__content h3 { grid-column: 1; grid-row: 1; }
+.timeline__org {
+  grid-column: 1; grid-row: 2;
+  font-size: 14px; color: var(--muted); margin-bottom: 0;
+}
+.timeline__content p:last-child {
+  grid-column: 2; grid-row: 1 / span 2;
+  font-size: 14.5px; line-height: 1.6; color: #a9b8d4; max-width: 62ch;
+}
 
 /* ---------- Skills ---------- */
-.skills__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.skills__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-content: start; }
 .skill-group {
   background: var(--glass); border: 1px solid var(--glass-line);
   -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
   box-shadow: var(--glass-shadow), var(--glass-inset);
-  border-radius: 22px; padding: 32px;
+  border-radius: 22px; padding: 24px 26px;
   transition: border-color 0.4s, transform 0.4s var(--ease);
 }
 .skill-group:hover { border-color: rgba(var(--accent-rgb), 0.4); transform: translateY(-4px); }
 .skill-group h3 {
-  font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; margin-bottom: 20px;
+  font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; margin-bottom: 14px;
+}
+/* Two columns, so a long list fills the card's width instead of running down
+   one side and stretching the section. Multi-column rather than flex: items
+   flow by height on their own. */
+.skill-group ul {
+  list-style: none; columns: 2; column-gap: 26px;
+}
+.skill-group li {
+  font-size: 14px; color: #c4d1e8; padding-left: 20px;
+  position: relative; line-height: 1.4;
+  margin-bottom: 8px; break-inside: avoid;
+}
+.skill-group li::before {
+  content: "›"; position: absolute; left: 0; color: var(--accent); font-weight: 700;
 }
 .tags { display: flex; flex-wrap: wrap; gap: 9px; }
 .tags span {
@@ -778,47 +827,11 @@ body.vbox-open { overflow: hidden; }
 .footer__inner a { transition: color 0.3s; }
 .footer__inner a:hover { color: var(--accent); }
 
-/* ---------- Capabilities: cut-out portrait beside the skill cards ---------- */
-/* Two columns, bottom-aligned: the desk line the cutout is cropped at sits
-   flush with the bottom edge of the 2x2 card block. */
-.skills__layout {
-  display: grid; grid-template-columns: 1fr minmax(240px, 330px);
-  gap: clamp(24px, 3vw, 44px); align-items: end;
-}
-/* Right column: a leadership panel on top, the cutout pinned to the bottom.
-   `margin-top: auto` is what closes the gap the bottom-aligned figure used
-   to leave above itself. */
-.skills__side {
-  display: flex; flex-direction: column; gap: clamp(18px, 2vw, 26px);
-  height: 100%;
-}
-.skill-group--lead ul {
-  list-style: none; display: flex; flex-direction: column; gap: 11px;
-}
-.skill-group--lead li {
-  font-size: 14.5px; color: #c4d1e8; padding-left: 22px;
-  position: relative; line-height: 1.5;
-}
-.skill-group--lead li::before {
-  content: "›"; position: absolute; left: 0; color: var(--accent); font-weight: 700;
-}
-.skills__portrait {
-  margin: auto 0 0; background: none; border: 0; box-shadow: none;
-  display: flex; justify-content: center; align-items: flex-end;
-}
-.skills__portrait img {
-  display: block; width: 100%; height: auto;
-  background: none; border: 0; border-radius: 0;
-  /* drop-shadow traces the alpha edge — depth without a box */
-  filter: drop-shadow(0 30px 42px rgba(0, 6, 20, 0.7)) contrast(1.03) saturate(1.03);
-  transform: translate3d(0, var(--par-y, 0px), 0) scale(var(--zoom, 1));
-  transition: transform 0.6s var(--ease), filter 0.9s var(--ease);
-  will-change: transform;
-}
-.skills__portrait:hover img {
-  --zoom: 1.03;
-  filter: drop-shadow(0 36px 50px rgba(0, 6, 20, 0.75)) contrast(1.06) saturate(1.1);
-}
+/* ---------- Capabilities ----------
+   Five cards on a three-track grid: three on the first row, then one plus
+   the leadership card spanning the remaining two tracks, so both rows fill
+   completely and no cell is left empty. */
+.skill-group--lead { grid-column: span 2; }
 
 /* ---------- Glass fallback (older browsers) ---------- */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -831,123 +844,160 @@ body.vbox-open { overflow: hidden; }
 
 
 /* =========================================================
-   Circular dial navigation (replaces the desktop header)
+   Semicircular dial navigation (replaces the desktop header)
    ---------------------------------------------------------
-   Geometry: the dial's centre sits just inside the right edge, so only
-   the left arc is on screen. Each item is placed with
+   The dial box is --r wide by 2*--r tall, flush to the right edge, so
+   the circle's centre lands exactly ON that edge and precisely half
+   the circle is on screen. Items are placed from that centre with
        rotate(--a) translateX(--r)
-   and its contents counter-rotate by -(--a + --spin) to stay upright.
-   Scrolling sets --spin so the active item swings to 9 o'clock, where
-   the pointer sits. Custom properties inherit, so the label reads
-   --spin off the container with no per-frame JS on the label itself.
+   and counter-rotate by -(--a + --spin) to stay upright. Scrolling
+   sets --spin so the active item swings to 9 o'clock, under the pointer.
 
-   At rest the rail is only dots, which keeps its footprint inside the
-   reserved gutter; labels are revealed on hover/focus and for the
-   active item.
+   The sweep is an SVG arc with an animated dash, not a rotating conic
+   gradient: a rotating gradient spends half its cycle on the off-screen
+   half of the circle and appears to stall. A dash travelling along the
+   visible semicircle is lit the whole time.
    ========================================================= */
 .dial {
-  --r: 140px;          /* ring radius            */
-  --c: 44px;           /* centre inset from edge */
+  --r: 250px;                     /* arc radius  — the visual */
+  --ir: 200px;                    /* item radius — where the dots sit. A
+                                     resolved length, not a calc, so the
+                                     script can read it back and line the
+                                     labels up. */
   --spin: 0deg;
   position: fixed; z-index: 1000;
-  top: 50%; right: calc(var(--c) - var(--r));
-  width: calc(var(--r) * 2); height: calc(var(--r) * 2);
+  top: 50%; right: 0;
+  width: var(--r); height: calc(var(--r) * 2);
   transform: translateY(-50%);
   pointer-events: none;                /* only the links take clicks */
 }
 
-/* the slowly turning dashed ring — this is the dial the eye reads */
-.dial__axis {
-  position: absolute; inset: 0; border-radius: 50%;
-  border: 1px dashed rgba(var(--accent-rgb), 0.24);
-  animation: dial-drift 64s linear infinite;
+/* the semicircular track + the light travelling along it */
+.dial__arc { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.dial__arc-track {
+  fill: none; stroke: rgba(var(--accent-rgb), 0.28); stroke-width: 1.1;
 }
-@keyframes dial-drift { to { transform: rotate(360deg); } }
+.dial__arc-comet {
+  fill: none; stroke: url(#dialComet); stroke-width: 2.2; stroke-linecap: round;
+  /* semicircle of r=100 is pi*100 = 314.16 units long: one dash, one gap */
+  stroke-dasharray: 58 256.16;
+  filter: drop-shadow(0 0 3px rgba(var(--accent-rgb), 0.95));
+  animation: dial-sweep 5s linear infinite;
+}
+@keyframes dial-sweep {
+  from { stroke-dashoffset: 314.16; }
+  to   { stroke-dashoffset: 0; }
+}
 
 /* pointer at 9 o'clock: the slot the active item rotates into */
 .dial__cursor {
-  position: absolute; top: 50%; left: 0;
+  position: absolute; top: 50%; left: calc(var(--r) - var(--ir));
   transform: translate(-50%, -50%);
-  width: 30px; height: 30px; border-radius: 50%;
-  background: rgba(var(--accent-rgb), 0.12);
-  border: 1px solid rgba(var(--accent-rgb), 0.45);
-  box-shadow: 0 0 24px rgba(var(--accent-rgb), 0.3);
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.14);
+  border: 2px solid rgba(var(--accent-rgb), 0.7);
+  box-shadow: 0 0 34px rgba(var(--accent-rgb), 0.55),
+              inset 0 0 20px rgba(var(--accent-rgb), 0.3);
 }
 
 .dial__ring {
   position: absolute; inset: 0; list-style: none;
   transform: rotate(var(--spin));
+  transform-origin: 100% 50%;          /* the circle centre, on the right edge */
   transition: transform 0.85s var(--ease);
 }
 .dial__item {
-  position: absolute; left: 50%; top: 50%;
-  transform: translate(-50%, -50%) rotate(var(--a)) translateX(var(--r));
+  position: absolute; left: 100%; top: 50%;   /* = the circle centre */
+  transform: translate(-50%, -50%) rotate(var(--a)) translateX(var(--ir));
 }
 .dial__item a {
-  /* undo the ring spin and the item's own angle so contents sit upright */
-  display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+  display: flex; align-items: center; justify-content: flex-start; gap: 10px;
   pointer-events: auto; text-decoration: none;
-  transform: rotate(calc(-1 * (var(--a) + var(--spin))));
+  /* Counter-rotate upright, then shift right by half the row so its LEFT
+     edge — where the dot is — lands on the arc. Because every label is the
+     same width the row width is constant, so all six dots sit exactly on
+     the arc and the labels fan out evenly. Variable-width labels were what
+     made the dots ragged. */
+  transform: rotate(calc(-1 * (var(--a) + var(--spin)))) translateX(50%);
   transition: transform 0.85s var(--ease);
 }
+.dial__item a::after { order: -1; }     /* dot leads, label sits inside it */
 .dial__label {
-  white-space: nowrap; order: -1;      /* label sits left of the dot */
-  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.6px;
-  color: var(--text); padding: 7px 13px; border-radius: 100px;
-  background: var(--glass); border: 1px solid var(--glass-line);
-  -webkit-backdrop-filter: var(--blur-soft); backdrop-filter: var(--blur-soft);
-  box-shadow: var(--glass-shadow), var(--glass-inset);
-  opacity: 0; transform: translateX(10px);
-  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease),
-              color 0.3s, background 0.3s, border-color 0.3s;
+  white-space: nowrap;
+  /* a fixed width keeps every row identical, which is what lets the dots
+     land on the arc — text-align pulls the words to the outer edge */
+  width: 104px; text-align: left;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.4px;
+  color: var(--muted); padding: 6px 12px; border-radius: 100px;
+  background: transparent; border: 1px solid transparent;
+  transition: color 0.3s, background 0.3s, border-color 0.3s;
 }
-.dial__item a::after {                  /* the dot */
+.dial__item a::after {                  /* the dot, sitting on the arc */
   content: ""; flex: 0 0 auto;
-  width: 9px; height: 9px; border-radius: 50%;
-  background: rgba(190, 220, 255, 0.34);
-  border: 1px solid transparent;
-  transition: background 0.3s, transform 0.35s var(--ease), border-color 0.3s;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.55);
+  border: 1px solid rgba(190, 225, 255, 0.6);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.55);
+  transition: background 0.3s, transform 0.35s var(--ease),
+              border-color 0.3s, box-shadow 0.3s;
 }
 .dial__item a:hover::after,
-.dial__item a:focus-visible::after { background: var(--accent-soft); transform: scale(1.4); }
+.dial__item a:focus-visible::after {
+  background: var(--accent-soft); transform: scale(1.45);
+  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.95);
+}
 .dial__item a:hover .dial__label,
-.dial__item a:focus-visible .dial__label { opacity: 1; transform: none; }
+.dial__item a:focus-visible .dial__label {
+  color: var(--text); border-color: rgba(var(--accent-rgb), 0.45);
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--blur-soft); backdrop-filter: var(--blur-soft);
+}
 
 .dial__item.is-active a::after {
-  background: var(--accent); transform: scale(1.5);
-  box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.85);
+  background: var(--accent-soft); transform: scale(1.7);
+  border-color: #fff;
+  box-shadow: 0 0 10px #fff, 0 0 26px rgba(var(--accent-rgb), 1),
+              0 0 48px rgba(var(--accent-rgb), 0.6);
 }
 .dial__item.is-active .dial__label {
-  opacity: 1; transform: none;
   color: var(--ink); background: var(--accent); border-color: var(--accent);
+  box-shadow: 0 6px 22px -6px rgba(var(--accent-rgb), 0.8);
 }
 
 /* The dial owns navigation from 901px up; below that, header + burger.
-   Each width band pairs a ring size with a gutter wide enough to clear
-   its deepest dot (--c + --r), so the rail never overlaps text. The
-   gutter goes on the padded containers rather than <main>, so the
-   full-bleed marquee band keeps running edge to edge. */
+   Centre sits on the edge, so the deepest dot is exactly --r; each band's
+   gutter clears that. The gutter goes on the padded containers rather
+   than <main>, so the full-bleed marquee keeps running edge to edge. */
 @media (min-width: 901px) {
   .nav { display: none; }
   .hero, .section, .stats, .page-head, .footer {
     padding-right: calc(var(--pad) + var(--gutter));
   }
+  .section, .stats, .page-head { max-width: calc(var(--maxw) + var(--gutter)); }
+  /* the marquee keeps its full-bleed band but fades out before the rail */
+  .marquee {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%,
+        #000 calc(100% - var(--gutter) - 40px), transparent calc(100% - var(--gutter) + 10px));
+            mask-image: linear-gradient(90deg, transparent, #000 8%,
+        #000 calc(100% - var(--gutter) - 40px), transparent calc(100% - var(--gutter) + 10px));
+  }
 }
-@media (min-width: 901px) and (max-width: 1200px) {
-  .dial { --r: 108px; --c: 32px; }        /* deepest dot 140px */
-  :root { --gutter: 150px; }
+@media (min-width: 901px)  and (max-width: 1200px) {
+  .dial { --r: 190px; --ir: 152px; }
+  :root { --gutter: 178px; }
+  .dial__label { font-size: 10.5px; padding: 5px 10px; letter-spacing: 0.3px; }
 }
-@media (min-width: 1201px) {
-  .dial { --r: 140px; --c: 44px; }        /* deepest dot 184px */
-  :root { --gutter: 196px; }
-}
+@media (min-width: 1201px) and (max-width: 1500px) { .dial { --r: 250px; --ir: 200px; } :root { --gutter: 226px; } }
+@media (min-width: 1501px)                         { .dial { --r: 300px; --ir: 240px; } :root { --gutter: 266px; } }
 @media (max-width: 900px) { .dial { display: none; } }
-/* shorter viewports: pull the ring in so the arc still fits vertically */
-@media (max-height: 700px) { .dial { --r: 112px; --c: 34px; } }
-@media (max-height: 560px) { .dial { --r: 94px;  --c: 28px; } }
+
+/* the arc is 2*--r tall, so short viewports need a smaller radius */
+@media (max-height: 900px) { .dial { --r: 240px; --ir: 192px; } }
+@media (max-height: 780px) { .dial { --r: 200px; --ir: 160px; } }
+@media (max-height: 640px) { .dial { --r: 160px; --ir: 128px; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .dial__axis { animation: none; }
+  .dial__arc-comet { animation: none; stroke-dasharray: none; opacity: 0.5; }
   .dial__ring, .dial__item a, .dial__label { transition: none; }
 }
 
@@ -961,9 +1011,7 @@ body.vbox-open { overflow: hidden; }
   .about__grid { grid-template-columns: 1fr; gap: 40px; }
   .stats { grid-template-columns: repeat(2, 1fr); gap: 36px 24px; }
   .skills__grid { grid-template-columns: 1fr; }
-  .skills__layout { grid-template-columns: 1fr; }
-  .skills__side { height: auto; }
-  .skills__portrait img { max-width: 320px; margin: 0 auto; }
+  .skill-group--lead { grid-column: span 1; }
   .awards__grid { grid-template-columns: 1fr; }
   .work-card { grid-template-columns: 1fr; gap: 14px; }
   .work-card__meta, .work-card__title, .work-card__desc, .work-card__foot {
@@ -972,6 +1020,10 @@ body.vbox-open { overflow: hidden; }
   .work-card__org { font-size: 1.2rem; }
   .timeline__item { grid-template-columns: 1fr; gap: 6px; }
   .timeline__year { padding-top: 0; }
+  .timeline__content { grid-template-columns: 1fr; }
+  .timeline__content h3, .timeline__org,
+  .timeline__content p:last-child { grid-column: 1; grid-row: auto; }
+  .timeline__org { margin-bottom: 10px; }
 }
 
 @media (max-width: 560px) {

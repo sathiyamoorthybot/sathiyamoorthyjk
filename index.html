@@ -39,27 +39,35 @@
 
   <!-- Circular dial navigation (desktop) -->
   <nav class="dial" id="dial" aria-label="Primary">
-    <span class="dial__axis" aria-hidden="true"></span>
+    <svg class="dial__arc" viewBox="0 0 100 200" aria-hidden="true">
+      <defs>
+        <linearGradient id="dialComet" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="var(--accent-soft)" />
+          <stop offset="100%" stop-color="var(--accent)" />
+        </linearGradient>
+      </defs>
+      <path class="dial__arc-track" d="M100,0 A100,100 0 0,0 100,200" />
+      <path class="dial__arc-comet" d="M100,0 A100,100 0 0,0 100,200" />
+    </svg>
     <span class="dial__cursor" aria-hidden="true"></span>
     <ul class="dial__ring" id="dialRing">
       <li class="dial__item"><a href="#top"><span class="dial__label">Home</span></a></li>
-      <li class="dial__item"><a href="works/"><span class="dial__label">Work</span></a></li>
       <li class="dial__item"><a href="#about"><span class="dial__label">About</span></a></li>
       <li class="dial__item"><a href="#experience"><span class="dial__label">Experience</span></a></li>
       <li class="dial__item"><a href="#skills"><span class="dial__label">Skills</span></a></li>
       <li class="dial__item"><a href="#contact"><span class="dial__label">Contact</span></a></li>
+      <li class="dial__item"><a href="works/"><span class="dial__label">Work</span></a></li>
     </ul>
   </nav>
 
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <a href="#top">Home</a>
-    <a href="works/">Work</a>
     <a href="#about">About</a>
     <a href="#experience">Experience</a>
     <a href="#skills">Skills</a>
-    <a href="#awards">Awards</a>
     <a href="#contact">Get in touch</a>
+    <a href="works/">Work</a>
   </div>
 
   <main id="top">
@@ -390,59 +398,55 @@
         <span class="section__index">04</span>
         <h2 class="section__title">Capabilities &amp; toolkit</h2>
       </div>
-      <div class="skills__layout">
       <div class="skills__grid">
         <div class="skill-group reveal">
           <h3>Video Production &amp; Editing</h3>
-          <div class="tags">
-            <span>Video Editing</span>
-            <span>On-Air Promo Production</span>
-            <span>Broadcast Post-Production</span>
-            <span>PCR / ACR</span>
-            <span>MCR</span>
-            <span>ICR (Ingest)</span>
-            <span>Social Media Live Tools</span>
-          </div>
+          <ul>
+            <li>Video Editing</li>
+            <li>On-Air Promo Production</li>
+            <li>Broadcast Post-Production</li>
+            <li>PCR / ACR</li>
+            <li>MCR</li>
+            <li>ICR (Ingest)</li>
+            <li>Social Media Live Tools</li>
+          </ul>
         </div>
         <div class="skill-group reveal">
           <h3>Software</h3>
-          <div class="tags">
-            <span>Final Cut Pro X</span>
-            <span>Apple Motion</span>
-            <span>Adobe Premiere Pro</span>
-            <span>After Effects</span>
-            <span>Photoshop</span>
-            <span>Adobe Audition</span>
-          </div>
+          <ul class="skill-list--split">
+            <li>Final Cut Pro X</li>
+            <li>Apple Motion</li>
+            <li>Adobe Premiere Pro</li>
+            <li>After Effects</li>
+            <li>Photoshop</li>
+            <li>Adobe Audition</li>
+          </ul>
         </div>
         <div class="skill-group reveal">
           <h3>Development &amp; AI</h3>
-          <div class="tags">
-            <span>Full Stack Web Dev</span>
-            <span>HTML</span>
-            <span>CSS</span>
-            <span>JavaScript</span>
-            <span>React</span>
-            <span>Node.js</span>
-            <span>Remotion</span>
-            <span>Claude AI</span>
-            <span>ElevenLabs</span>
-            <span>HeyGen</span>
-            <span>HiggsField</span>
-          </div>
+          <ul class="skill-list--split">
+            <li>Full Stack Web Dev</li>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>React</li>
+            <li>Node.js</li>
+            <li>Remotion</li>
+            <li>Claude AI</li>
+            <li>ElevenLabs</li>
+            <li>HeyGen</li>
+            <li>HiggsField</li>
+          </ul>
         </div>
         <div class="skill-group reveal">
           <h3>Leadership</h3>
-          <div class="tags">
-            <span>Team Leadership</span>
-            <span>Project Management</span>
-            <span>Deadline Management</span>
-            <span>Cross-functional Collaboration</span>
-          </div>
+          <ul>
+            <li>Team Leadership</li>
+            <li>Project Management</li>
+            <li>Deadline Management</li>
+            <li>Cross-functional Collaboration</li>
+          </ul>
         </div>
-      </div>
-
-      <div class="skills__side">
         <div class="skill-group skill-group--lead reveal">
           <h3>How I lead</h3>
           <ul>
@@ -452,12 +456,6 @@
             <li>Hire for taste; the tooling can be taught</li>
           </ul>
         </div>
-
-        <figure class="skills__portrait reveal">
-          <img src="assets/portrait-desk.webp" alt="Sathiya Moorthy"
-               width="820" height="786" loading="lazy" />
-        </figure>
-      </div>
       </div>
     </section>
 

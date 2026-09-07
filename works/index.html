@@ -30,26 +30,34 @@
 
   <!-- Circular dial navigation (desktop) -->
   <nav class="dial" id="dial" aria-label="Primary">
-    <span class="dial__axis" aria-hidden="true"></span>
+    <svg class="dial__arc" viewBox="0 0 100 200" aria-hidden="true">
+      <defs>
+        <linearGradient id="dialComet" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="var(--accent-soft)" />
+          <stop offset="100%" stop-color="var(--accent)" />
+        </linearGradient>
+      </defs>
+      <path class="dial__arc-track" d="M100,0 A100,100 0 0,0 100,200" />
+      <path class="dial__arc-comet" d="M100,0 A100,100 0 0,0 100,200" />
+    </svg>
     <span class="dial__cursor" aria-hidden="true"></span>
     <ul class="dial__ring" id="dialRing">
       <li class="dial__item"><a href="../"><span class="dial__label">Home</span></a></li>
-      <li class="dial__item"><a href="./"><span class="dial__label">Work</span></a></li>
       <li class="dial__item"><a href="../#about"><span class="dial__label">About</span></a></li>
       <li class="dial__item"><a href="../#experience"><span class="dial__label">Experience</span></a></li>
       <li class="dial__item"><a href="../#skills"><span class="dial__label">Skills</span></a></li>
       <li class="dial__item"><a href="../#contact"><span class="dial__label">Contact</span></a></li>
+      <li class="dial__item"><a href="./"><span class="dial__label">Work</span></a></li>
     </ul>
   </nav>
 
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <a href="../">Home</a>
-    <a href="./">Work</a>
     <a href="../#about">About</a>
     <a href="../#experience">Experience</a>
     <a href="../#skills">Skills</a>
-    <a href="../#awards">Awards</a>
     <a href="../#contact">Get in touch</a>
+    <a href="./">Work</a>
   </div>
 
   <main id="top">

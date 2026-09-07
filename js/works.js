@@ -93,14 +93,12 @@ var VIDEOS = [
     id: "5bXic7mAalY",
     title: "Make Your Brand Stand Out — Branding Reel",
     category: "Branding",
-    org: "Trends & Tactics",
     vertical: true
   },
   {
     id: "48SAF4I4Q2o",
     title: "Digital Onam — Festive Greeting",
     category: "Branding",
-    org: "Trends & Tactics",
     vertical: true
   }
 ];
@@ -126,9 +124,9 @@ var VIDEOS = [
      filter, so the tab row stays to three. */
   function orient(v) { return v.vertical ? "Vertical" : "Horizontal"; }
 
-  var cats = ["All", "Horizontal", "Vertical"];
+  var cats = ["Horizontal", "Vertical"];
 
-  if (filters && cats.length > 2) {
+  if (filters && cats.length > 1) {
     cats.forEach(function (cat, i) {
       var btn = document.createElement("button");
       btn.className = "works-filter" + (i === 0 ? " is-active" : "");
@@ -150,8 +148,9 @@ var VIDEOS = [
   function render(filter) {
     grid.innerHTML = "";
     shown = VIDEOS.filter(function (v) {
-      return !filter || filter === "All" || orient(v) === filter;
+      return orient(v) === filter;
     });
+    grid.classList.toggle("works-grid--v", filter === "Vertical");
     shown.forEach(function (v) {
       grid.appendChild(card(v));
     });
@@ -308,5 +307,5 @@ var VIDEOS = [
     load(shown[current]);
   }
 
-  render("All");
+  render(cats[0]);
 })();

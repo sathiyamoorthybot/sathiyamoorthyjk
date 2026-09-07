@@ -160,7 +160,6 @@
     { sel: ".hero__portrait-img", speed: -44 },
     { sel: ".stat__num",          speed: -22 },
     { sel: ".section__index",     speed: -20 },
-    { sel: ".skills__portrait img", speed: 34 },
     { sel: ".contact__portrait",  speed: -26 },
     // thumbs are clipped by their frame, so drift must stay inside the
     // overscan that --zoom buys us (see .work-video__thumb in the CSS)
@@ -243,11 +242,18 @@
 
     // Fan the items across an arc centred on 180deg (pointing left, into
     // the page). 9 o'clock is where the pointer sits.
-    var SPAN = 148;                        // degrees of arc used
+    // Items span this arc, and the ring spins by up to +/-SPAN/2 to bring
+    // the active one to the pointer — so an item's *effective* angle ranges
+    // over 180 +/- SPAN. Widen this and the outer items swing far enough
+    // toward the screen edge that their labels run off it.
+    var SPAN = 44;                         // degrees of arc used
     var CENTRE = 180;
     var step = items.length > 1 ? SPAN / (items.length - 1) : 0;
+    // Counting down from CENTRE + SPAN/2 puts item 0 at the TOP: in screen
+    // coordinates sin() grows downward, so ascending angles would stack the
+    // menu bottom-up and Home would sit under Work.
     var angles = items.map(function (li, i) {
-      var a = CENTRE - SPAN / 2 + i * step;
+      var a = CENTRE + SPAN / 2 - i * step;
       li.style.setProperty("--a", a + "deg");
       return a;
     });
@@ -290,19 +296,30 @@
       setActive(best);
     }
 
-    if (pageIndex > -1 && !targets.some(function (t) { return t; })) {
-      setActive(pageIndex);                 // static: this page is the target
-    } else {
-      var queued = false;
-      function onDialScroll() {
-        if (queued) return;
-        queued = true;
-        requestAnimationFrame(function () { queued = false; pick(); });
+    function begin() {
+      if (pageIndex > -1 && !targets.some(function (t) { return t; })) {
+        setActive(pageIndex);               // static page: it IS the target
+      } else {
+        var queued = false;
+        var onDialScroll = function () {
+          if (queued) return;
+          queued = true;
+          requestAnimationFrame(function () { queued = false; pick(); });
+        };
+        window.addEventListener("scroll", onDialScroll, { passive: true });
+        pick();
       }
-      window.addEventListener("scroll", onDialScroll, { passive: true });
-      window.addEventListener("resize", onDialScroll, { passive: true });
-      pick();
+      window.addEventListener("resize", pick, { passive: true });
     }
+
+    // Entrance: park the ring at the far end of its travel, then settle onto
+    // the active item on the next frame so the CSS transition plays. Without
+    // this the dial only ever visibly turned on pages that have sections to
+    // scroll through — /works/ sat frozen. Two frames, so the browser has
+    // committed the start value before it changes.
+    dialEl.style.setProperty("--spin", (CENTRE - angles[angles.length - 1]) + "deg");
+    if (calm) { begin(); }
+    else { requestAnimationFrame(function () { requestAnimationFrame(begin); }); }
   })();
 
   /* ---- Cursor glow (desktop pointers only) ---- */
