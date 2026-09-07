@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sathiya Moorthy — Media Producer & Full Stack Developer</title>
+  <meta name="description" content="Sathiya Moorthy — Broadcast Production Specialist, Media Producer, Full Stack Developer & AI Content Creator. 15+ years across News 7 Tamil, Zee Tamizh, Isha Foundation and more." />
+  <meta name="author" content="Sathiya Moorthy" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Sathiya Moorthy — Media Producer & Full Stack Developer" />
+  <meta property="og:description" content="15+ years in broadcast television, film & digital content. Now building AI-powered production workflows and full stack web applications." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23060911'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='700' fill='%234da3ff' text-anchor='middle'%3ESM%3C/text%3E%3C/svg%3E" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Film grain overlay -->
+  <div class="grain" aria-hidden="true"></div>
+  <!-- Cursor glow -->
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <nav class="nav__links" aria-label="Primary">
+      <a href="works/">Work</a>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact" class="nav__cta">Get in touch</a>
+    </nav>
+    <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <a href="works/">Work</a>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#awards">Awards</a>
+    <a href="#contact">Get in touch</a>
+  </div>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <div class="hero__text">
+          <p class="hero__eyebrow reveal">
+            <span class="dot"></span> Coimbatore, Tamil Nadu · India
+          </p>
+          <h1 class="hero__title">
+            <span class="line reveal"><span>Broadcast craft</span></span>
+            <span class="line reveal"><span>meets <em>code &amp; AI.</em></span></span>
+          </h1>
+          <p class="hero__lead reveal">
+            I'm <strong>Sathiya Moorthy</strong> — a media production professional with
+            <strong>15+ years</strong> across broadcast television, film and digital content.
+            Today I fuse that craft with full stack development and next-generation AI tools
+            to build smarter content at scale.
+          </p>
+          <div class="hero__roles reveal">
+            <span>Broadcast Production Specialist</span>
+            <span>Media Producer</span>
+            <span>Full Stack Developer</span>
+            <span>AI Content Creator</span>
+          </div>
+          <div class="hero__actions reveal">
+            <a href="#work" class="btn btn--primary">View selected work</a>
+            <a href="#contact" class="btn btn--ghost">Let's talk</a>
+          </div>
+        </div>
+        <div class="hero__portrait reveal">
+          <img class="hero__portrait-img" src="assets/portrait-hero.webp"
+               alt="Sathiya Moorthy" width="900" height="1350" />
+        </div>
+      </div>
+      <a href="#work" class="hero__scroll" aria-label="Scroll down">
+        <span>Scroll</span>
+        <span class="hero__scroll-line"></span>
+      </a>
+    </section>
+
+    <!-- BRAND MARQUEE -->
+    <section class="marquee" aria-label="Networks and organizations">
+      <div class="marquee__track">
+        <span>News 7 Tamil</span><span class="sep">•</span>
+        <span>Zee Tamizh</span><span class="sep">•</span>
+        <span>Isha Foundation</span><span class="sep">•</span>
+        <span>House of EdTech</span><span class="sep">•</span>
+        <span>Branova</span><span class="sep">•</span>
+        <span>Trends &amp; Tactics</span><span class="sep">•</span>
+        <span>News 7 Tamil</span><span class="sep">•</span>
+        <span>Zee Tamizh</span><span class="sep">•</span>
+        <span>Isha Foundation</span><span class="sep">•</span>
+        <span>House of EdTech</span><span class="sep">•</span>
+        <span>Branova</span><span class="sep">•</span>
+        <span>Trends &amp; Tactics</span><span class="sep">•</span>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats" id="stats">
+      <div class="stat reveal">
+        <span class="stat__num" data-count="15" data-suffix="+">0</span>
+        <span class="stat__label">Years in production</span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat__num" data-count="10" data-suffix="+">0</span>
+        <span class="stat__label">Roles across 8 organizations</span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat__num" data-count="100" data-suffix="M+">0</span>
+        <span class="stat__label">Viewers reached, globally</span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat__num" data-count="2" data-suffix="">0</span>
+        <span class="stat__label">Industry awards &amp; promotions</span>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about section" id="about">
+      <div class="section__head reveal">
+        <span class="section__index">01</span>
+        <h2 class="section__title">From the edit bay to the codebase</h2>
+      </div>
+      <div class="about__grid">
+        <div class="about__body reveal">
+          <p>
+            I started on film sets as an Assistant Director and worked my way up — through
+            reality TV at Zee Tamizh, breaking-news coverage at News 7 Tamil, and global
+            spiritual broadcasts at Isha Foundation — all the way to <strong>heading media
+            production</strong> at leading networks.
+          </p>
+          <p>
+            Along the way I've owned on-air promo production, studio operations
+            (PCR/ACR, MCR, ICR), broadcast post-production, and large-scale live event
+            coverage — maintaining broadcast-grade quality on every deliverable.
+          </p>
+          <p>
+            Now I'm integrating <strong>full stack development</strong> and a modern AI
+            toolkit — ElevenLabs, HeyGen, HiggsField, Remotion and Claude — into production
+            pipelines, shipping web applications and programmatic video at scale through my
+            studio, <strong>Branova</strong>.
+          </p>
+        </div>
+        <aside class="about__aside reveal">
+          <div class="about__card">
+            <h3>What I bring</h3>
+            <ul>
+              <li>End-to-end production, concept → delivery</li>
+              <li>Broadcast post &amp; on-air promos</li>
+              <li>Studio &amp; live event operations</li>
+              <li>Full stack web development</li>
+              <li>AI-assisted &amp; programmatic video</li>
+              <li>Cross-functional team leadership</li>
+            </ul>
+          </div>
+          <div class="about__card about__card--lang">
+            <h3>Languages</h3>
+            <p><strong>English</strong> — Read · Write · Speak</p>
+            <p><strong>Tamil</strong> — Read · Write · Speak</p>
+            <p><strong>Kannada</strong> — Speak</p>
+          </div>
+        </aside>
+      </div>
+
+      <figure class="about__still reveal">
+        <img src="assets/portrait-desk.webp" alt="Sathiya Moorthy"
+             width="820" height="786" loading="lazy" />
+      </figure>
+    </section>
+
+    <!-- SELECTED WORK -->
+    <section class="work section" id="work">
+      <div class="section__head reveal">
+        <span class="section__index">02</span>
+        <h2 class="section__title">Work that shipped at scale</h2>
+      </div>
+
+      <div class="work__list">
+        <article class="work-card reveal">
+          <div class="work-card__meta">
+            <span class="work-card__tag">Live · Global Broadcast</span>
+            <span class="work-card__org">Isha Foundation</span>
+          </div>
+          <h3 class="work-card__title">Mahashivratri — Global Live</h3>
+          <p class="work-card__desc">
+            Complete video editing, promotional content and event glimpses for one of the
+            most-watched live spiritual events on the planet — broadcast globally to
+            millions of viewers.
+          </p>
+          <div class="work-card__foot">
+            <span>Editing</span><span>Promos</span><span>Live Event</span>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <div class="work-card__meta">
+            <span class="work-card__tag">National Campaigns</span>
+            <span class="work-card__org">Isha · Sadhguru</span>
+          </div>
+          <h3 class="work-card__title">Movements that reached millions</h3>
+          <p class="work-card__desc">
+            Promotional videos and campaign edits for Project GreenHands, Rally for Rivers,
+            Cauvery Calling and Youth &amp; Truth — large-scale national initiatives spanning
+            digital and broadcast platforms.
+          </p>
+          <div class="work-card__foot">
+            <span>Campaign Edits</span><span>Promos</span><span>Digital</span>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <div class="work-card__meta">
+            <span class="work-card__tag">Broadcast · Studio</span>
+            <span class="work-card__org">News 7 Tamil</span>
+          </div>
+          <h3 class="work-card__title">News, promos &amp; the production floor</h3>
+          <p class="work-card__desc">
+            From editing breaking-news events — the South India Floods and Tamil Nadu
+            Legislative Election — to producing on-air promos, then supervising studio
+            operations, PCR/ACR, MCR, ingest and live programs as Head of Production.
+          </p>
+          <div class="work-card__foot">
+            <span>Promo Production</span><span>Studio Ops</span><span>Motion Graphics</span>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <div class="work-card__meta">
+            <span class="work-card__tag">Web · AI</span>
+            <span class="work-card__org">Branova</span>
+          </div>
+          <h3 class="work-card__title">AI-integrated web &amp; video pipelines</h3>
+          <p class="work-card__desc">
+            Founded Branova to ship full stack web applications and programmatic video
+            pipelines — integrating ElevenLabs, HeyGen, HiggsField and Remotion, with Claude
+            for AI-assisted development, from concept to deployment.
+          </p>
+          <div class="work-card__foot">
+            <span>Full Stack</span><span>Remotion</span><span>Generative AI</span>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <div class="work-card__meta">
+            <span class="work-card__tag">Editorial · Leadership</span>
+            <span class="work-card__org">House of EdTech</span>
+          </div>
+          <h3 class="work-card__title">Senior video editor &amp; team lead</h3>
+          <p class="work-card__desc">
+            Senior video editor on the promotional ads team — reviewing and signing off every
+            edit before it ships, managing a small team of editors, and writing the training
+            and onboarding material they work from. Also on the hiring side: screening and
+            interviewing new editors as the team grows.
+          </p>
+          <div class="work-card__foot">
+            <span>Edit Review</span><span>Team Management</span><span>Hiring &amp; Onboarding</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="work__cta reveal">
+        <a href="works/" class="btn btn--primary">Watch the video work &rarr;</a>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE TIMELINE -->
+    <section class="experience section" id="experience">
+      <div class="section__head reveal">
+        <span class="section__index">03</span>
+        <h2 class="section__title">15 years, one through-line</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline__item reveal">
+          <span class="timeline__year">2025 — Present</span>
+          <div class="timeline__content">
+            <h3>Senior Video Editor</h3>
+            <p class="timeline__org">House of EdTech · Kolkata</p>
+            <p>Reviewing edits for quality and brand consistency, managing a small editing team, building the training and onboarding material, and interviewing new editors.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <span class="timeline__year">2024 — Present</span>
+          <div class="timeline__content">
+            <h3>Founder &amp; Full Stack Developer</h3>
+            <p class="timeline__org">Branova · Coimbatore</p>
+            <p>Building and shipping full stack web apps and programmatic video pipelines for clients, with AI woven through the workflow end-to-end.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <span class="timeline__year">2024 — 2025</span>
+          <div class="timeline__content">
+            <h3>Head of Media Production</h3>
+            <p class="timeline__org">Trends &amp; Tactics · Chennai</p>
+            <p>End-to-end video production for digital campaigns, plus managing website development projects and client coordination.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <span class="timeline__year">2023 — 2024</span>
+          <div class="timeline__content">
+            <h3>Head of Media Production</h3>
+            <p class="timeline__org">News 7 Tamil · Chennai</p>
+            <p>Supervised all video production — studio activities, PCR/ACR, MCR, ICR (ingest), news presenters and live/special programs — plus broadcast motion graphics.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <span class="timeline__year">2021 — 2023</span>
+          <div class="timeline__content">
+            <h3>Senior Promo Editor &amp; Promo Producer</h3>
+            <p class="timeline__org">News 7 Tamil · Chennai</p>
+            <p>Conceptualized and produced on-air promos and special features from brief to final delivery — creative direction, scripting and execution.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <span class="timeline__year">2017 — 2021</span>
+          <div class="timeline__content">
+            <h3>Senior Video Editor</h3>
+            <p class="timeline__org">Isha Foundation · Coimbatore</p>
+            <p>Editing, promos and event glimpses for Mahashivratri and national initiatives reaching millions across digital and broadcast.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <span class="timeline__year">2015 — 2017</span>
+          <div class="timeline__content">
+            <h3>Video Editor</h3>
+            <p class="timeline__org">News 7 Tamil · Chennai</p>
+            <p>Covered and edited breaking-news events including the South India Floods (2015) and the Tamil Nadu Legislative Election (2016).</p>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <span class="timeline__year">2014 — 2015</span>
+          <div class="timeline__content">
+            <h3>Video Editor</h3>
+            <p class="timeline__org">Zee Network — Zee Tamizh · Chennai</p>
+            <p>Edited reality shows and entertainment content for Zee Tamizh broadcast.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <span class="timeline__year">2011 — 2014</span>
+          <div class="timeline__content">
+            <h3>Assistant Director</h3>
+            <p class="timeline__org">Independent · Tamil Film Productions · Chennai</p>
+            <p>AD on multiple Tamil feature films — scene breakdown, shot listing, crew coordination and continuity across productions.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <span class="timeline__year">2009 — 2011</span>
+          <div class="timeline__content">
+            <h3>Assistant Director</h3>
+            <p class="timeline__org">Time Frames Production · Chennai</p>
+            <p>Assisted direction on Star Vijay television projects — foundational storytelling, scene breakdown and production scheduling.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="skills section" id="skills">
+      <div class="section__head reveal">
+        <span class="section__index">04</span>
+        <h2 class="section__title">Capabilities &amp; toolkit</h2>
+      </div>
+      <div class="skills__grid">
+        <div class="skill-group reveal">
+          <h3>Video Production &amp; Editing</h3>
+          <div class="tags">
+            <span>Video Editing</span>
+            <span>On-Air Promo Production</span>
+            <span>Broadcast Post-Production</span>
+            <span>PCR / ACR</span>
+            <span>MCR</span>
+            <span>ICR (Ingest)</span>
+            <span>Social Media Live Tools</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <h3>Software</h3>
+          <div class="tags">
+            <span>Final Cut Pro X</span>
+            <span>Apple Motion</span>
+            <span>Adobe Premiere Pro</span>
+            <span>After Effects</span>
+            <span>Photoshop</span>
+            <span>Adobe Audition</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <h3>Development &amp; AI</h3>
+          <div class="tags">
+            <span>Full Stack Web Dev</span>
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>React</span>
+            <span>Node.js</span>
+            <span>Remotion</span>
+            <span>Claude AI</span>
+            <span>ElevenLabs</span>
+            <span>HeyGen</span>
+            <span>HiggsField</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <h3>Leadership</h3>
+          <div class="tags">
+            <span>Team Leadership</span>
+            <span>Project Management</span>
+            <span>Deadline Management</span>
+            <span>Cross-functional Collaboration</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AWARDS + EDUCATION -->
+    <section class="awards section" id="awards">
+      <div class="section__head reveal">
+        <span class="section__index">05</span>
+        <h2 class="section__title">Recognition &amp; education</h2>
+      </div>
+      <div class="awards__grid">
+        <div class="award reveal">
+          <span class="award__icon">★</span>
+          <div>
+            <h3>Best Telefilm Editor</h3>
+            <p>15th Atlas-Kerala Film &amp; Television Critics Award (2013) — for the telefilm <em>"Nilavurangu Nila"</em>.</p>
+          </div>
+        </div>
+        <div class="award reveal">
+          <span class="award__icon">▲</span>
+          <div>
+            <h3>Promoted to Head of Media Production</h3>
+            <p>News 7 Tamil — recognized for outstanding shoot coordination, studio handling, promo editing and leadership on the production floor.</p>
+          </div>
+        </div>
+        <div class="award reveal">
+          <span class="award__icon">◎</span>
+          <div>
+            <h3>B.Sc — Visual Communication</h3>
+            <p>PSG College of Arts &amp; Science, Coimbatore · 2006 — 2009.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact section" id="contact">
+      <div class="contact__inner reveal">
+        <img src="assets/headshot.jpg" alt="Sathiya Moorthy" class="contact__portrait"
+             width="900" height="765" loading="lazy" />
+        <p class="contact__eyebrow">Open to collaborations &amp; projects</p>
+        <h2 class="contact__title">Let's make something<br /><em>worth watching.</em></h2>
+        <a href="mailto:sathiyamoorthyjayarajan@gmail.com" class="contact__email">
+          sathiyamoorthyjayarajan@gmail.com
+        </a>
+        <div class="contact__links">
+          <a href="mailto:sathiyamoorthyjayarajan@gmail.com" class="btn btn--primary">Email me</a>
+          <a href="tel:+919003882310" class="btn btn--ghost">+91 90038 82310</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <span>© <span id="year">2026</span> Sathiya Moorthy</span>
+      <span class="footer__loc">Coimbatore, Tamil Nadu · India</span>
+      <a href="https://sathiyamoorthyjk.vercel.in" target="_blank" rel="noopener">sathiyamoorthyjk.vercel.in</a>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

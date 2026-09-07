@@ -1,0 +1,7 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Stray editor / terminal scratch
+Terminal Saved Output.txt
+*.log

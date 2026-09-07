@@ -1,0 +1,249 @@
+/* =========================================================
+   Sathiya Moorthy — Portfolio interactions
+   ========================================================= */
+(function () {
+  "use strict";
+
+  /* ---- Footer year ---- */
+  var yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- Nav: frost on scroll, progress bar, hide on scroll-down ---- */
+  var nav = document.getElementById("nav");
+  var progress = document.querySelector(".scroll-progress");
+  var lastY = window.scrollY || 0;
+
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset;
+
+    if (nav) {
+      nav.classList.toggle("scrolled", y > 40);
+      // get out of the way going down, come back the moment you scroll up
+      var down = y > lastY;
+      var far = y > 220;
+      if (!calm) nav.classList.toggle("nav--hidden", down && far);
+    }
+
+    if (progress) {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (h > 0 ? (y / h) * 100 : 0) + "%";
+    }
+
+    lastY = y;
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ---- Mobile menu ---- */
+  var toggle = document.getElementById("navToggle");
+  var menu = document.getElementById("mobileMenu");
+  function closeMenu() {
+    if (!menu) return;
+    menu.classList.remove("open");
+    toggle.classList.remove("open");
+    toggle.setAttribute("aria-expanded", "false");
+    menu.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+  if (toggle && menu) {
+    toggle.addEventListener("click", function () {
+      var open = menu.classList.toggle("open");
+      toggle.classList.toggle("open", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      menu.setAttribute("aria-hidden", open ? "false" : "true");
+      document.body.style.overflow = open ? "hidden" : "";
+    });
+    menu.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", closeMenu);
+    });
+  }
+
+  /* ---- Reveal on scroll — two-way: things arrive, and they leave ---- */
+  var reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !calm) {
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var el = entry.target;
+
+          if (entry.isIntersecting) {
+            el.classList.remove("out");
+            var delay = el.dataset.delay || 0;
+            clearTimeout(el._revealT);
+            el._revealT = setTimeout(function () { el.classList.add("in"); }, delay);
+            return;
+          }
+
+          clearTimeout(el._revealT);
+
+          if (entry.boundingClientRect.top < 0) {
+            // scrolled up out of the top — recede upward
+            el.classList.remove("in");
+            el.classList.add("out");
+          } else {
+            // still below the fold — reset so it animates in again on the way down
+            el.classList.remove("in", "out");
+          }
+        });
+      },
+      { threshold: 0, rootMargin: "-8% 0px -12% 0px" }
+    );
+    reveals.forEach(function (el, i) {
+      // small natural stagger inside the same viewport batch
+      el.dataset.delay = (i % 4) * 70;
+      io.observe(el);
+    });
+  } else {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  }
+
+  /* ---- Animated stat counters ---- */
+  var counters = document.querySelectorAll(".stat__num");
+  function animateCount(el) {
+    var target = parseInt(el.getAttribute("data-count"), 10) || 0;
+    var suffix = el.getAttribute("data-suffix") || "";
+    var dur = 1600;
+    var start = null;
+
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      // easeOutExpo
+      var eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+      el.textContent = Math.round(eased * target) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+  if ("IntersectionObserver" in window) {
+    var cio = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animateCount(entry.target);
+            cio.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    counters.forEach(function (c) { cio.observe(c); });
+  } else {
+    counters.forEach(function (c) {
+      c.textContent = c.getAttribute("data-count") + (c.getAttribute("data-suffix") || "");
+    });
+  }
+
+  /* =======================================================
+     Scroll engine — parallax drift + hero fall-away
+     One rAF loop, only while the page is actually moving.
+     `speed` is px of drift per viewport height of scroll.
+     ======================================================= */
+  var LAYERS = [
+    { sel: ".hero__glow",         speed:  90 },
+    { sel: ".hero__portrait-img", speed: -44 },
+    { sel: ".stat__num",          speed: -22 },
+    { sel: ".section__index",     speed: -20 },
+    { sel: ".about__still img",   speed:  44 },
+    { sel: ".contact__portrait",  speed: -26 },
+    // thumbs are clipped by their frame, so drift must stay inside the
+    // overscan that --zoom buys us (see .work-video__thumb in the CSS)
+    { sel: ".work-video__thumb",  speed:  16 }
+  ];
+
+  var layers = [];
+  if (!calm) {
+    LAYERS.forEach(function (cfg) {
+      document.querySelectorAll(cfg.sel).forEach(function (el) {
+        layers.push({ el: el, speed: cfg.speed });
+      });
+    });
+  }
+
+  var heroText = document.querySelector(".hero__text");
+  var ticking = false, vel = 0, prevY = window.scrollY || 0;
+
+  function frame() {
+    var vh = window.innerHeight;
+    var y = window.scrollY || window.pageYOffset;
+
+    // scroll velocity, smoothed — gives the drift a touch of momentum
+    vel += ((y - prevY) - vel) * 0.18;
+    prevY = y;
+    var momentum = Math.max(-26, Math.min(26, vel * 0.55));
+
+    for (var i = 0; i < layers.length; i++) {
+      var el = layers[i].el;
+      var r = el.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) continue;   // off-screen, skip
+
+      // -1 when the element sits a screen below centre, +1 a screen above
+      var p = ((r.top + r.height / 2) - vh / 2) / vh;
+      p = Math.max(-1.4, Math.min(1.4, p));
+      el.style.setProperty("--par-y", (-p * layers[i].speed + momentum * 0.35).toFixed(2) + "px");
+    }
+
+    // hero recedes as you leave it
+    if (heroText) {
+      var f = Math.max(0, Math.min(1, y / (vh * 0.72)));
+      heroText.style.setProperty("--hero-fade", (1 - f).toFixed(3));
+      heroText.style.setProperty("--hero-y", (f * -70).toFixed(1) + "px");
+    }
+
+    // keep coasting while momentum is still bleeding off
+    if (Math.abs(vel) > 0.15) {
+      requestAnimationFrame(frame);
+    } else {
+      vel = 0;
+      ticking = false;
+    }
+  }
+
+  function requestFrame() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(frame);
+    }
+  }
+
+  if (!calm && (layers.length || heroText)) {
+    window.addEventListener("scroll", requestFrame, { passive: true });
+    window.addEventListener("resize", requestFrame, { passive: true });
+    requestFrame();
+  }
+
+  /* ---- Cursor glow (desktop pointers only) ---- */
+  var glow = document.querySelector(".cursor-glow");
+  if (glow && window.matchMedia("(pointer: fine)").matches) {
+    var gx = 0, gy = 0, cx = 0, cy = 0, raf;
+    window.addEventListener("mousemove", function (e) {
+      gx = e.clientX; gy = e.clientY;
+      glow.style.opacity = "1";
+      if (!raf) loop();
+    });
+    window.addEventListener("mouseleave", function () { glow.style.opacity = "0"; });
+    function loop() {
+      cx += (gx - cx) * 0.12;
+      cy += (gy - cy) * 0.12;
+      glow.style.transform = "translate(" + cx + "px," + cy + "px) translate(-50%,-50%)";
+      raf = (Math.abs(gx - cx) > 0.5 || Math.abs(gy - cy) > 0.5)
+        ? requestAnimationFrame(loop) : null;
+    }
+  }
+
+  /* ---- Smooth-scroll offset for fixed nav ---- */
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      var id = link.getAttribute("href");
+      if (id.length < 2) return;
+      var target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      var top = target.getBoundingClientRect().top + window.scrollY - 64;
+      window.scrollTo({ top: top, behavior: "smooth" });
+    });
+  });
+})();
