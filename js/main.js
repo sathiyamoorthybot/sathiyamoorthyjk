@@ -10,6 +10,19 @@
 
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---- Always open at the top on reload ----
+     Browsers restore the previous scroll offset on refresh, which lands you
+     mid-page with the reveal animations already spent. Opt out of that, but
+     still honour a real #hash so shared section links keep working. */
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  if (!window.location.hash) {
+    window.scrollTo(0, 0);
+    // some browsers restore the offset after load fires, so re-assert once
+    window.addEventListener("load", function () {
+      if (!window.location.hash) window.scrollTo(0, 0);
+    });
+  }
+
   /* ---- Nav: frost on scroll, progress bar, hide on scroll-down ---- */
   var nav = document.getElementById("nav");
   var progress = document.querySelector(".scroll-progress");
@@ -147,11 +160,11 @@
     { sel: ".hero__portrait-img", speed: -44 },
     { sel: ".stat__num",          speed: -22 },
     { sel: ".section__index",     speed: -20 },
-    { sel: ".about__still img",   speed:  44 },
+    { sel: ".skills__portrait img", speed: 34 },
     { sel: ".contact__portrait",  speed: -26 },
     // thumbs are clipped by their frame, so drift must stay inside the
     // overscan that --zoom buys us (see .work-video__thumb in the CSS)
-    { sel: ".work-video__thumb",  speed:  16 }
+    { sel: ".work-video__thumb",  speed:   9 }
   ];
 
   var layers = [];
@@ -214,6 +227,83 @@
     window.addEventListener("resize", requestFrame, { passive: true });
     requestFrame();
   }
+
+  /* =======================================================
+     Circular dial navigation
+     Lays the items out on an arc, then spins the ring so the
+     active section's item lands on the 9 o'clock pointer.
+     ======================================================= */
+  (function dial() {
+    var dialEl = document.getElementById("dial");
+    var ring = document.getElementById("dialRing");
+    if (!dialEl || !ring) return;
+
+    var items = [].slice.call(ring.querySelectorAll(".dial__item"));
+    if (!items.length) return;
+
+    // Fan the items across an arc centred on 180deg (pointing left, into
+    // the page). 9 o'clock is where the pointer sits.
+    var SPAN = 148;                        // degrees of arc used
+    var CENTRE = 180;
+    var step = items.length > 1 ? SPAN / (items.length - 1) : 0;
+    var angles = items.map(function (li, i) {
+      var a = CENTRE - SPAN / 2 + i * step;
+      li.style.setProperty("--a", a + "deg");
+      return a;
+    });
+
+    // Each item's scroll target, when it has one on this page.
+    var targets = items.map(function (li) {
+      var href = li.querySelector("a").getAttribute("href") || "";
+      var hash = href.indexOf("#");
+      if (hash === -1) return null;                 // another page: no section
+      var id = href.slice(hash);
+      return id.length > 1 ? document.querySelector(id) : null;
+    });
+
+    // On a page where one item is the current page (Work on /works/),
+    // pin the dial to it — there are no sections to track.
+    var pageIndex = items.findIndex(function (li) {
+      var h = li.querySelector("a").getAttribute("href");
+      return h === "./" || h === "";
+    });
+
+    var active = -1;
+    function setActive(i) {
+      if (i === active || i < 0) return;
+      active = i;
+      items.forEach(function (li, n) { li.classList.toggle("is-active", n === i); });
+      // spin so item i sits at CENTRE (the pointer)
+      dialEl.style.setProperty("--spin", (CENTRE - angles[i]) + "deg");
+    }
+
+    function pick() {
+      // the section whose top has most recently passed the focus line
+      var line = window.innerHeight * 0.35;
+      var best = -1;
+      for (var i = 0; i < targets.length; i++) {
+        var el = targets[i];
+        if (!el) continue;
+        if (el.getBoundingClientRect().top - line <= 0) best = i;
+      }
+      if (best === -1) best = targets.findIndex(function (t) { return t; });
+      setActive(best);
+    }
+
+    if (pageIndex > -1 && !targets.some(function (t) { return t; })) {
+      setActive(pageIndex);                 // static: this page is the target
+    } else {
+      var queued = false;
+      function onDialScroll() {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(function () { queued = false; pick(); });
+      }
+      window.addEventListener("scroll", onDialScroll, { passive: true });
+      window.addEventListener("resize", onDialScroll, { passive: true });
+      pick();
+    }
+  })();
 
   /* ---- Cursor glow (desktop pointers only) ---- */
   var glow = document.querySelector(".cursor-glow");

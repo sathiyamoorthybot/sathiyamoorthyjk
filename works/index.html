@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Work — Sathiya Moorthy</title>
+  <title>Work Showcase — Sathiya Moorthy</title>
   <meta name="description" content="Selected video work by Sathiya Moorthy — broadcast promos, live events, news and AI-powered content." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,19 +22,28 @@
 
   <!-- Navigation -->
   <header class="nav" id="nav">
-    <nav class="nav__links" aria-label="Primary">
-      <a href="./" class="is-current">Work</a>
-      <a href="../#about">About</a>
-      <a href="../#experience">Experience</a>
-      <a href="../#skills">Skills</a>
-      <a href="../#contact" class="nav__cta">Get in touch</a>
-    </nav>
     <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span>
     </button>
   </header>
 
+
+  <!-- Circular dial navigation (desktop) -->
+  <nav class="dial" id="dial" aria-label="Primary">
+    <span class="dial__axis" aria-hidden="true"></span>
+    <span class="dial__cursor" aria-hidden="true"></span>
+    <ul class="dial__ring" id="dialRing">
+      <li class="dial__item"><a href="../"><span class="dial__label">Home</span></a></li>
+      <li class="dial__item"><a href="./"><span class="dial__label">Work</span></a></li>
+      <li class="dial__item"><a href="../#about"><span class="dial__label">About</span></a></li>
+      <li class="dial__item"><a href="../#experience"><span class="dial__label">Experience</span></a></li>
+      <li class="dial__item"><a href="../#skills"><span class="dial__label">Skills</span></a></li>
+      <li class="dial__item"><a href="../#contact"><span class="dial__label">Contact</span></a></li>
+    </ul>
+  </nav>
+
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <a href="../">Home</a>
     <a href="./">Work</a>
     <a href="../#about">About</a>
     <a href="../#experience">Experience</a>
@@ -48,7 +57,7 @@
     <section class="page-head">
       <div class="page-head__inner">
         <p class="page-head__eyebrow reveal"><span class="dot"></span> Selected video work</p>
-        <h1 class="page-head__title reveal">My Work</h1>
+        <h1 class="page-head__title reveal">Work Showcase</h1>
         <p class="page-head__lead reveal">
           A selection of broadcast promos, live events, news features and AI-powered
           content — spanning 15+ years across television, film and digital.
@@ -76,7 +85,7 @@
     <div class="footer__inner">
       <span>© <span id="year">2026</span> Sathiya Moorthy</span>
       <span class="footer__loc">Coimbatore, Tamil Nadu · India</span>
-      <a href="https://sathiyamoorthyjk.vercel.in" target="_blank" rel="noopener">sathiyamoorthyjk.vercel.in</a>
+      <a href="https://sathiyamoorthyjk.vercel.app" target="_blank" rel="noopener">sathiyamoorthyjk.vercel.app</a>
     </div>
   </footer>
 

@@ -31,20 +31,29 @@
 
   <!-- Navigation -->
   <header class="nav" id="nav">
-    <nav class="nav__links" aria-label="Primary">
-      <a href="works/">Work</a>
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact" class="nav__cta">Get in touch</a>
-    </nav>
     <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span>
     </button>
   </header>
 
+
+  <!-- Circular dial navigation (desktop) -->
+  <nav class="dial" id="dial" aria-label="Primary">
+    <span class="dial__axis" aria-hidden="true"></span>
+    <span class="dial__cursor" aria-hidden="true"></span>
+    <ul class="dial__ring" id="dialRing">
+      <li class="dial__item"><a href="#top"><span class="dial__label">Home</span></a></li>
+      <li class="dial__item"><a href="works/"><span class="dial__label">Work</span></a></li>
+      <li class="dial__item"><a href="#about"><span class="dial__label">About</span></a></li>
+      <li class="dial__item"><a href="#experience"><span class="dial__label">Experience</span></a></li>
+      <li class="dial__item"><a href="#skills"><span class="dial__label">Skills</span></a></li>
+      <li class="dial__item"><a href="#contact"><span class="dial__label">Contact</span></a></li>
+    </ul>
+  </nav>
+
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <a href="#top">Home</a>
     <a href="works/">Work</a>
     <a href="#about">About</a>
     <a href="#experience">Experience</a>
@@ -178,11 +187,6 @@
           </div>
         </aside>
       </div>
-
-      <figure class="about__still reveal">
-        <img src="assets/portrait-desk.webp" alt="Sathiya Moorthy"
-             width="820" height="786" loading="lazy" />
-      </figure>
     </section>
 
     <!-- SELECTED WORK -->
@@ -386,6 +390,7 @@
         <span class="section__index">04</span>
         <h2 class="section__title">Capabilities &amp; toolkit</h2>
       </div>
+      <div class="skills__layout">
       <div class="skills__grid">
         <div class="skill-group reveal">
           <h3>Video Production &amp; Editing</h3>
@@ -436,6 +441,24 @@
           </div>
         </div>
       </div>
+
+      <div class="skills__side">
+        <div class="skill-group skill-group--lead reveal">
+          <h3>How I lead</h3>
+          <ul>
+            <li>Set the creative direction, then protect it through delivery</li>
+            <li>Review every cut — the quality bar isn't delegated</li>
+            <li>Train editors on written standards, not verbal notes</li>
+            <li>Hire for taste; the tooling can be taught</li>
+          </ul>
+        </div>
+
+        <figure class="skills__portrait reveal">
+          <img src="assets/portrait-desk.webp" alt="Sathiya Moorthy"
+               width="820" height="786" loading="lazy" />
+        </figure>
+      </div>
+      </div>
     </section>
 
     <!-- AWARDS + EDUCATION -->
@@ -474,8 +497,21 @@
       <div class="contact__inner reveal">
         <img src="assets/headshot.jpg" alt="Sathiya Moorthy" class="contact__portrait"
              width="900" height="765" loading="lazy" />
-        <p class="contact__eyebrow">Open to collaborations &amp; projects</p>
-        <h2 class="contact__title">Let's make something<br /><em>worth watching.</em></h2>
+        <p class="contact__eyebrow">Seeking a production leadership role</p>
+        <h2 class="contact__title">Ready to lead your<br /><em>production team.</em></h2>
+        <p class="contact__lead">
+          Fifteen years on the floor and in the bay — studio operations, live events,
+          on-air promos and post — and the teams that delivered them, at networks
+          reaching audiences in the hundreds of millions. I'm looking for a role where
+          that scale compounds: owning creative direction, holding the quality bar,
+          and building the editors and crew who do the work.
+        </p>
+        <div class="contact__roles">
+          <span>Head of Production</span>
+          <span>Creative Director</span>
+          <span>Head of Post-Production</span>
+          <span>Executive Producer</span>
+        </div>
         <a href="mailto:sathiyamoorthyjayarajan@gmail.com" class="contact__email">
           sathiyamoorthyjayarajan@gmail.com
         </a>
@@ -491,7 +527,7 @@
     <div class="footer__inner">
       <span>© <span id="year">2026</span> Sathiya Moorthy</span>
       <span class="footer__loc">Coimbatore, Tamil Nadu · India</span>
-      <a href="https://sathiyamoorthyjk.vercel.in" target="_blank" rel="noopener">sathiyamoorthyjk.vercel.in</a>
+      <a href="https://sathiyamoorthyjk.vercel.app" target="_blank" rel="noopener">sathiyamoorthyjk.vercel.app</a>
     </div>
   </footer>
 

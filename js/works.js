@@ -15,6 +15,12 @@
                 lightbox open a portrait stage instead of 16:9.
    Newest first looks best — add new entries at the top.
    ========================================================= */
+/* Titles are hidden in the UI for now (the YouTube names aren't
+   presentation-ready). They stay in the data and on aria-label /
+   iframe title, so screen readers and tooltips still identify each
+   video. Flip this to true to show them again. */
+var SHOW_TITLES = false;
+
 var VIDEOS = [
   /* ---- Long-form: broadcast, promos, events ---- */
   {
@@ -113,11 +119,14 @@ var VIDEOS = [
     return;
   }
 
-  /* ---- Build filter tabs from unique categories ---- */
-  var cats = ["All"];
-  VIDEOS.forEach(function (v) {
-    if (v.category && cats.indexOf(v.category) === -1) cats.push(v.category);
-  });
+  /* ---- Filter by orientation ----
+     The tabs sort by shape, not subject: one row of 16:9 work, one of
+     9:16. Each video's content category (Promos, Ads, Motion Graphics…)
+     still rides along on the card as its tag — it's just no longer a
+     filter, so the tab row stays to three. */
+  function orient(v) { return v.vertical ? "Vertical" : "Horizontal"; }
+
+  var cats = ["All", "Horizontal", "Vertical"];
 
   if (filters && cats.length > 2) {
     cats.forEach(function (cat, i) {
@@ -141,7 +150,7 @@ var VIDEOS = [
   function render(filter) {
     grid.innerHTML = "";
     shown = VIDEOS.filter(function (v) {
-      return !filter || filter === "All" || v.category === filter;
+      return !filter || filter === "All" || orient(v) === filter;
     });
     shown.forEach(function (v) {
       grid.appendChild(card(v));
@@ -193,7 +202,7 @@ var VIDEOS = [
       (v.org ? '<span class="work-video__org">' + v.org + "</span>" : "");
     cap.innerHTML =
       '<div class="work-video__meta">' + meta + "</div>" +
-      '<h3 class="work-video__title">' + v.title + "</h3>";
+      (SHOW_TITLES ? '<h3 class="work-video__title">' + v.title + "</h3>" : "");
 
     fig.appendChild(frame);
     fig.appendChild(cap);
@@ -264,7 +273,8 @@ var VIDEOS = [
     stage.innerHTML = "";
     stage.appendChild(iframe);
 
-    capTitle.textContent = v.title || "";
+    capTitle.textContent = SHOW_TITLES ? (v.title || "") : "";
+    capTitle.hidden = !SHOW_TITLES;
     capMeta.textContent = v.category || "";
     capOrg.textContent = v.org || "";
 
