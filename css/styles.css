@@ -371,7 +371,12 @@ em { font-style: italic; color: var(--accent); }
   0%, 8%   { background-position: -50% 0; }
   70%,100% { background-position: 150% 0; }
 }
-.nle__copy { position: relative; z-index: 2; padding: clamp(20px, 3.4cqi, 52px); max-width: 64%; }
+/* the copy sits in from the frame's left edge, the way a lower third does */
+.nle__copy {
+  position: relative; z-index: 2; max-width: 68%;
+  padding: clamp(20px, 3.4cqi, 52px) clamp(20px, 3.4cqi, 52px)
+           clamp(20px, 3.4cqi, 52px) clamp(26px, 6cqi, 96px);
+}
 /* Mid viewer — no inspector, so the panel is narrower than the wide case
    but still two-up: the copy takes more of the width and the portrait comes
    back inside the frame rather than crowding the text. */
