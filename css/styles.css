@@ -1240,7 +1240,7 @@ body.vbox-open { overflow: hidden; }
 /* The dial is out of the way while the editor window owns the screen; it
    slides in once the page scrolls on to the sections it navigates. */
 .dial {
-  opacity: 1; transition: opacity 0.5s var(--ease), transform 0.6s var(--ease);
+  opacity: 1; transition: opacity 0.75s var(--ease), transform 0.85s var(--ease);
   --r: 250px;                     /* arc radius  — the visual */
   --ir: 200px;                    /* item radius — where the dots sit. A
                                      resolved length, not a calc, so the
