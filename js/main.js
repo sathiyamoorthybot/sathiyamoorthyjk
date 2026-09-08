@@ -151,13 +151,13 @@
   }
 
   /* =======================================================
-     Scroll engine — parallax drift + hero fall-away
+     Scroll engine — parallax drift + opening fall-away
      One rAF loop, only while the page is actually moving.
      `speed` is px of drift per viewport height of scroll.
      ======================================================= */
   var LAYERS = [
-    { sel: ".hero__glow",         speed:  90 },
-    { sel: ".hero__portrait-img", speed: -44 },
+    { sel: ".nle__glow",          speed:  90 },
+    { sel: ".nle__portrait",      speed: -30 },
     { sel: ".stat__num",          speed: -22 },
     { sel: ".section__index",     speed: -20 },
     { sel: ".contact__portrait",  speed: -26 },
@@ -175,7 +175,7 @@
     });
   }
 
-  var heroText = document.querySelector(".hero__text");
+  var opening = document.querySelector(".nle__copy");
   var ticking = false, vel = 0, prevY = window.scrollY || 0;
 
   function frame() {
@@ -198,11 +198,11 @@
       el.style.setProperty("--par-y", (-p * layers[i].speed + momentum * 0.35).toFixed(2) + "px");
     }
 
-    // hero recedes as you leave it
-    if (heroText) {
+    // the opening screen recedes as you leave it
+    if (opening) {
       var f = Math.max(0, Math.min(1, y / (vh * 0.72)));
-      heroText.style.setProperty("--hero-fade", (1 - f).toFixed(3));
-      heroText.style.setProperty("--hero-y", (f * -70).toFixed(1) + "px");
+      opening.style.setProperty("--open-fade", (1 - f).toFixed(3));
+      opening.style.setProperty("--open-y", (f * -70).toFixed(1) + "px");
     }
 
     // keep coasting while momentum is still bleeding off
@@ -221,7 +221,7 @@
     }
   }
 
-  if (!calm && (layers.length || heroText)) {
+  if (!calm && (layers.length || opening)) {
     window.addEventListener("scroll", requestFrame, { passive: true });
     window.addEventListener("resize", requestFrame, { passive: true });
     requestFrame();
@@ -340,6 +340,67 @@
         ? requestAnimationFrame(loop) : null;
     }
   }
+
+  /* ---- Hold the dial back over the opening screen ----
+     The editor window runs the full viewport, so the rail has nothing to
+     navigate yet and would only sit on top of the inspector. It slides in
+     once the page scrolls on to the sections it points at. ---- */
+  (function () {
+    var nle = document.querySelector(".nle");
+    if (!nle) return;
+    document.body.classList.add("dial-off");
+
+    if (!("IntersectionObserver" in window)) {
+      document.body.classList.remove("dial-off");
+      return;
+    }
+    // while the opening screen still owns most of the view, stay hidden
+    new IntersectionObserver(function (entries) {
+      document.body.classList.toggle("dial-off", entries[0].intersectionRatio > 0.55);
+    }, { threshold: [0, 0.4, 0.55, 0.7, 1] }).observe(nle);
+  })();
+
+  /* ---- Inspector: cycle the role field ----
+     One title can't carry fifteen years, so the field runs through them
+     the way an NLE steps through a clip's metadata. Pauses off screen. ---- */
+  (function () {
+    var slot = document.querySelector(".nle__role");
+    if (!slot) return;
+    var ROLES = [
+      "Broadcast Production Specialist",
+      "Media Producer",
+      "AI-Powered Video Editor",
+      "Motion Graphics Artist",
+      "Live Event Producer",
+      "AI Content Creator",
+      "Full Stack Developer",
+      "Post-Production Lead"
+    ];
+    var line = slot.querySelector("span");
+    var i = 0, live = true, timer = null;
+
+    function next() {
+      slot.classList.add("is-out");
+      setTimeout(function () {
+        i = (i + 1) % ROLES.length;
+        line.textContent = ROLES[i];
+        slot.classList.remove("is-out");
+      }, 400);                       // matches the CSS transition
+      timer = setTimeout(next, 2600);
+    }
+    function start() { if (!timer) timer = setTimeout(next, 2600); }
+    function stop()  { clearTimeout(timer); timer = null; }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        live = entries[0].isIntersecting;
+        if (live) start(); else stop();
+      }, { threshold: 0 }).observe(slot.closest(".nle"));
+    } else {
+      start();
+    }
+  })();
 
   /* ---- NLE hero: run the timecode with the playhead ----
      The playhead sweeps the timeline on a 15s CSS loop; this counts the
