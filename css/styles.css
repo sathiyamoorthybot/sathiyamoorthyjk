@@ -218,6 +218,284 @@ em { font-style: italic; color: var(--accent); }
 }
 .btn--ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
 
+/* =========================================================
+   NLE hero — the portfolio, opened in an editor
+   ---------------------------------------------------------
+   A Final Cut-shaped window: browser bin on the left holding the
+   toolkit as clips, viewer in the middle carrying the pitch, inspector
+   on the right, and the career cut into a timeline along the bottom.
+   The whole thing is one grid so the three panels share a baseline and
+   the timeline spans them.
+   ========================================================= */
+.nle {
+  position: relative; overflow: hidden;
+  padding: clamp(84px, 11vh, 128px) var(--pad) clamp(48px, 7vh, 88px);
+}
+.nle__glow {
+  position: absolute; top: -18%; left: 46%;
+  transform: translateX(-50%) translate3d(0, var(--par-y, 0px), 0);
+  width: 1000px; height: 760px; max-width: 130vw; z-index: 0;
+  background: radial-gradient(ellipse at center, rgba(var(--accent-rgb), 0.15), transparent 62%);
+  filter: blur(24px);
+}
+.nle__window {
+  position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto;
+  border-radius: 16px; overflow: hidden;
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-line);
+  box-shadow: 0 60px 140px -50px rgba(0, 8, 26, 0.95), var(--glass-inset);
+}
+
+/* ---- title bar ---- */
+.nle__titlebar {
+  display: flex; align-items: center; gap: 14px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--glass-line);
+  background: rgba(10, 18, 36, 0.5);
+}
+.nle__lights { display: flex; gap: 7px; flex: 0 0 auto; }
+.nle__lights i { width: 11px; height: 11px; border-radius: 50%; background: #3d4a63; }
+.nle__lights i:first-child { background: #ff5f57; }
+.nle__lights i:nth-child(2) { background: #febc2e; }
+.nle__lights i:nth-child(3) { background: #28c840; }
+.nle__file {
+  flex: 1 1 auto; text-align: center;
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.4px;
+  color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nle__badge {
+  flex: 0 0 auto; font-family: var(--font-mono); font-size: 10.5px;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--accent); padding: 4px 10px; border-radius: 100px;
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  background: rgba(var(--accent-rgb), 0.10);
+}
+
+/* ---- the three panels ---- */
+.nle__body {
+  display: grid; grid-template-columns: 210px minmax(0, 1fr) 230px;
+  border-bottom: 1px solid var(--glass-line);
+}
+.nle__panel-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  padding: 11px 14px 9px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--faint);
+  border-bottom: 1px solid var(--glass-line);
+}
+.nle__panel-head span { color: rgba(var(--accent-rgb), 0.75); letter-spacing: 0.6px; }
+
+/* ---- browser: the toolkit as a bin of clips ---- */
+.nle__browser { border-right: 1px solid var(--glass-line); min-width: 0; }
+.nle__bin {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+  padding: 12px;
+}
+.nle__clip {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 10px 6px 8px; cursor: default;
+  border-radius: 10px; text-align: center;
+  background: rgba(10, 18, 36, 0.45);
+  border: 1px solid transparent;
+  transition: transform 0.35s var(--ease), border-color 0.3s, background 0.3s;
+}
+.nle__clip img {
+  width: 30px; height: 30px; object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0, 6, 20, 0.6));
+}
+.nle__clip-name {
+  font-size: 10.5px; line-height: 1.25; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+}
+.nle__clip-role {
+  font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.6px;
+  text-transform: uppercase; color: var(--faint);
+}
+.nle__clip:hover {
+  transform: translateY(-3px);
+  background: rgba(var(--accent-rgb), 0.12);
+  border-color: rgba(var(--accent-rgb), 0.4);
+}
+.nle__clip:hover .nle__clip-role { color: var(--accent); }
+
+/* ---- viewer: the pitch, playing ---- */
+.nle__viewer { padding: 16px; min-width: 0; container-type: inline-size; }
+.nle__screen {
+  position: relative; height: 100%; min-height: 380px;
+  border-radius: 12px; overflow: hidden;
+  background:
+    radial-gradient(90% 110% at 82% 40%, rgba(var(--accent-rgb), 0.16), transparent 60%),
+    linear-gradient(180deg, #070c18, #04070f);
+  border: 1px solid var(--glass-line);
+  display: flex; align-items: flex-end;
+}
+.nle__portrait {
+  position: absolute; right: -2%; bottom: 0; z-index: 0;
+  height: 96%; width: auto; max-width: 52%; object-fit: contain; object-position: bottom;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%);
+          mask-image: linear-gradient(90deg, transparent, #000 22%);
+}
+/* the faint horizontal sweep of a clip skimming under the playhead */
+.nle__scan {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(var(--accent-rgb), 0.10) 48%,
+              rgba(var(--accent-rgb), 0.02) 52%, transparent 100%);
+  background-size: 46% 100%; background-repeat: no-repeat;
+  animation: nle-skim 9s var(--ease) infinite;
+}
+@keyframes nle-skim {
+  0%, 8%   { background-position: -50% 0; }
+  70%,100% { background-position: 150% 0; }
+}
+.nle__copy { position: relative; z-index: 2; padding: clamp(20px, 3.4cqi, 40px); max-width: 62%; }
+/* Narrow viewer: the portrait stops competing with the copy and drops back
+   to being the plate the words sit on. */
+@container (max-width: 680px) {
+  .nle__copy { max-width: 100%; }
+  .nle__portrait { max-width: 66%; opacity: 0.3; }
+}
+.nle__eyebrow {
+  display: inline-flex; align-items: center; gap: 9px; margin-bottom: 16px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--muted);
+}
+.nle__rec {
+  width: 8px; height: 8px; border-radius: 50%; background: #ff4d4d;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.9);
+  animation: nle-rec 2.4s ease-in-out infinite;
+}
+@keyframes nle-rec { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+.nle__title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.7rem, 6.4cqi, 3.2rem); line-height: 1.0;
+  letter-spacing: -0.02em; margin-bottom: 16px;
+}
+.nle__title em { font-style: italic; color: var(--accent); }
+.nle__lead {
+  font-size: clamp(0.9rem, 1.9cqi, 1.05rem); color: #bbcae3;
+  max-width: 46ch; margin-bottom: 24px;
+}
+.nle__lead strong { color: var(--text); font-weight: 600; }
+.nle__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.nle__tc {
+  position: absolute; right: 14px; top: 12px; z-index: 2;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px;
+  color: rgba(226, 238, 255, 0.7);
+  padding: 4px 9px; border-radius: 6px;
+  background: rgba(4, 8, 18, 0.6); border: 1px solid var(--glass-line);
+}
+
+/* ---- inspector ---- */
+.nle__inspector { border-left: 1px solid var(--glass-line); min-width: 0; }
+.nle__meta { padding: 12px 14px; display: grid; gap: 11px; }
+.nle__meta dt {
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 1.1px;
+  text-transform: uppercase; color: var(--faint); margin-bottom: 2px;
+}
+.nle__meta dd { font-size: 11.5px; line-height: 1.4; color: var(--text); }
+/* a stand-in for the audio meters that live at the foot of the inspector */
+.nle__scope {
+  display: flex; align-items: flex-end; gap: 3px; height: 42px;
+  padding: 0 14px 14px; margin-top: 4px;
+}
+.nle__scope span {
+  flex: 1 1 auto; border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, var(--accent-soft), rgba(var(--accent-rgb), 0.25));
+  animation: nle-meter 1.6s ease-in-out infinite;
+}
+.nle__scope span:nth-child(3n)   { animation-duration: 2.1s; }
+.nle__scope span:nth-child(3n+1) { animation-duration: 1.3s; }
+.nle__scope span:nth-child(2n)   { animation-delay: -0.5s; }
+.nle__scope span:nth-child(5n)   { animation-delay: -0.9s; }
+@keyframes nle-meter { 0%, 100% { height: 18%; } 50% { height: 92%; } }
+
+/* ---- timeline: the career, cut to length ---- */
+.nle__timeline { background: rgba(6, 11, 24, 0.45); padding: 10px 14px 14px; }
+.nle__ruler {
+  display: flex; justify-content: space-between;
+  margin: 0 0 8px 34px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--glass-line);
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.8px;
+  color: var(--faint);
+}
+.nle__tracks { position: relative; display: grid; gap: 6px; }
+.nle__playhead {
+  position: absolute; top: -6px; bottom: -2px; left: 34px; width: 2px; z-index: 3;
+  background: linear-gradient(180deg, #fff, var(--accent));
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.9);
+  animation: nle-play 15s linear infinite;
+}
+.nle__playhead::before {
+  content: ""; position: absolute; top: -4px; left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: #fff;
+}
+@keyframes nle-play {
+  from { left: 34px; }
+  to   { left: calc(100% - 2px); }
+}
+.nle__track { display: flex; align-items: center; gap: 8px; }
+.nle__track-id {
+  flex: 0 0 26px; font-family: var(--font-mono); font-size: 9.5px;
+  letter-spacing: 0.8px; color: var(--faint);
+}
+.nle__lane {
+  position: relative; flex: 1 1 auto; height: 30px;
+  border-radius: 6px; background: rgba(10, 18, 36, 0.5);
+}
+.nle__seg {
+  position: absolute; top: 3px; bottom: 3px;
+  left: var(--x); width: var(--w);
+  display: flex; align-items: center; padding: 0 9px;
+  border-radius: 5px; overflow: hidden;
+  font-size: 10.5px; white-space: nowrap; text-overflow: ellipsis;
+  color: #eaf3ff; border: 1px solid rgba(255, 255, 255, 0.14);
+  transition: filter 0.3s, transform 0.3s var(--ease);
+}
+.nle__seg:hover { filter: brightness(1.18); transform: translateY(-1px); }
+.nle__seg--a { background: linear-gradient(180deg, #2f6fd0, #1d4a92); }
+.nle__seg--b { background: linear-gradient(180deg, #3f8ae0, #2560ad); }
+.nle__seg--c { background: linear-gradient(180deg, #5a6fd8, #34418f); }
+.nle__seg--d { background: linear-gradient(180deg, #8a5ad8, #4f2f92); }
+.nle__seg--e { background: linear-gradient(180deg, #2b5fb0, #1a3c78); }
+.nle__seg--f { background: linear-gradient(180deg, #2f8f9d, #1c5a66); }
+.nle__track--a .nle__lane { height: 24px; background: rgba(12, 34, 30, 0.55); }
+.nle__wave {
+  position: absolute; inset: 3px 4px;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="480" height="40" viewBox="0 0 480 40" fill="%2358e2c8"><rect x="1.0" y="14.7" width="2.0" height="10.6" rx="0.9"/><rect x="4.4" y="14.6" width="2.0" height="10.8" rx="0.9"/><rect x="7.8" y="10.5" width="2.0" height="19.0" rx="0.9"/><rect x="11.2" y="13.5" width="2.0" height="13.0" rx="0.9"/><rect x="14.6" y="9.1" width="2.0" height="21.8" rx="0.9"/><rect x="18.0" y="9.8" width="2.0" height="20.5" rx="0.9"/><rect x="21.4" y="12.0" width="2.0" height="16.0" rx="0.9"/><rect x="24.8" y="7.5" width="2.0" height="25.0" rx="0.9"/><rect x="28.2" y="11.8" width="2.0" height="16.4" rx="0.9"/><rect x="31.6" y="8.0" width="2.0" height="23.9" rx="0.9"/><rect x="35.0" y="11.7" width="2.0" height="16.6" rx="0.9"/><rect x="38.4" y="11.8" width="2.0" height="16.4" rx="0.9"/><rect x="41.8" y="9.4" width="2.0" height="21.3" rx="0.9"/><rect x="45.2" y="6.8" width="2.0" height="26.3" rx="0.9"/><rect x="48.6" y="13.1" width="2.0" height="13.9" rx="0.9"/><rect x="52.0" y="13.0" width="2.0" height="14.0" rx="0.9"/><rect x="55.4" y="9.0" width="2.0" height="22.0" rx="0.9"/><rect x="58.8" y="5.1" width="2.0" height="29.8" rx="0.9"/><rect x="62.2" y="7.2" width="2.0" height="25.7" rx="0.9"/><rect x="65.6" y="8.0" width="2.0" height="23.9" rx="0.9"/><rect x="69.0" y="1.4" width="2.0" height="37.2" rx="0.9"/><rect x="72.4" y="10.7" width="2.0" height="18.5" rx="0.9"/><rect x="75.8" y="1.7" width="2.0" height="36.6" rx="0.9"/><rect x="79.2" y="7.9" width="2.0" height="24.2" rx="0.9"/><rect x="82.6" y="9.6" width="2.0" height="20.8" rx="0.9"/><rect x="86.0" y="10.2" width="2.0" height="19.6" rx="0.9"/><rect x="89.4" y="8.7" width="2.0" height="22.5" rx="0.9"/><rect x="92.8" y="4.6" width="2.0" height="30.7" rx="0.9"/><rect x="96.2" y="11.3" width="2.0" height="17.4" rx="0.9"/><rect x="99.6" y="8.9" width="2.0" height="22.2" rx="0.9"/><rect x="103.0" y="9.5" width="2.0" height="21.1" rx="0.9"/><rect x="106.4" y="10.5" width="2.0" height="19.0" rx="0.9"/><rect x="109.8" y="8.2" width="2.0" height="23.6" rx="0.9"/><rect x="113.2" y="11.8" width="2.0" height="16.3" rx="0.9"/><rect x="116.6" y="11.4" width="2.0" height="17.1" rx="0.9"/><rect x="120.0" y="9.6" width="2.0" height="20.7" rx="0.9"/><rect x="123.4" y="4.5" width="2.0" height="31.0" rx="0.9"/><rect x="126.8" y="7.1" width="2.0" height="25.9" rx="0.9"/><rect x="130.2" y="8.4" width="2.0" height="23.3" rx="0.9"/><rect x="133.6" y="6.0" width="2.0" height="28.0" rx="0.9"/><rect x="137.0" y="7.9" width="2.0" height="24.2" rx="0.9"/><rect x="140.4" y="10.0" width="2.0" height="19.9" rx="0.9"/><rect x="143.8" y="6.8" width="2.0" height="26.4" rx="0.9"/><rect x="147.2" y="8.8" width="2.0" height="22.4" rx="0.9"/><rect x="150.6" y="13.1" width="2.0" height="13.8" rx="0.9"/><rect x="154.0" y="12.0" width="2.0" height="16.0" rx="0.9"/><rect x="157.4" y="11.5" width="2.0" height="17.1" rx="0.9"/><rect x="160.8" y="8.2" width="2.0" height="23.5" rx="0.9"/><rect x="164.2" y="8.5" width="2.0" height="23.1" rx="0.9"/><rect x="167.6" y="11.3" width="2.0" height="17.4" rx="0.9"/><rect x="171.0" y="5.3" width="2.0" height="29.3" rx="0.9"/><rect x="174.4" y="12.2" width="2.0" height="15.5" rx="0.9"/><rect x="177.8" y="9.6" width="2.0" height="20.8" rx="0.9"/><rect x="181.2" y="6.5" width="2.0" height="27.0" rx="0.9"/><rect x="184.6" y="11.7" width="2.0" height="16.6" rx="0.9"/><rect x="188.0" y="9.1" width="2.0" height="21.9" rx="0.9"/><rect x="191.4" y="13.1" width="2.0" height="13.8" rx="0.9"/><rect x="194.8" y="8.7" width="2.0" height="22.6" rx="0.9"/><rect x="198.2" y="8.8" width="2.0" height="22.3" rx="0.9"/><rect x="201.6" y="11.0" width="2.0" height="17.9" rx="0.9"/><rect x="205.0" y="9.7" width="2.0" height="20.5" rx="0.9"/><rect x="208.4" y="12.1" width="2.0" height="15.8" rx="0.9"/><rect x="211.8" y="8.1" width="2.0" height="23.7" rx="0.9"/><rect x="215.2" y="7.8" width="2.0" height="24.4" rx="0.9"/><rect x="218.6" y="7.0" width="2.0" height="26.0" rx="0.9"/><rect x="222.0" y="7.4" width="2.0" height="25.1" rx="0.9"/><rect x="225.4" y="3.0" width="2.0" height="34.0" rx="0.9"/><rect x="228.8" y="1.5" width="2.0" height="37.0" rx="0.9"/><rect x="232.2" y="6.4" width="2.0" height="27.3" rx="0.9"/><rect x="235.6" y="4.5" width="2.0" height="31.0" rx="0.9"/><rect x="239.0" y="11.1" width="2.0" height="17.9" rx="0.9"/><rect x="242.4" y="5.2" width="2.0" height="29.6" rx="0.9"/><rect x="245.8" y="6.5" width="2.0" height="27.0" rx="0.9"/><rect x="249.2" y="4.5" width="2.0" height="31.0" rx="0.9"/><rect x="252.6" y="7.2" width="2.0" height="25.7" rx="0.9"/><rect x="256.0" y="11.8" width="2.0" height="16.3" rx="0.9"/><rect x="259.4" y="10.1" width="2.0" height="19.7" rx="0.9"/><rect x="262.8" y="6.7" width="2.0" height="26.5" rx="0.9"/><rect x="266.2" y="11.9" width="2.0" height="16.1" rx="0.9"/><rect x="269.6" y="7.0" width="2.0" height="25.9" rx="0.9"/><rect x="273.0" y="9.6" width="2.0" height="20.8" rx="0.9"/><rect x="276.4" y="9.9" width="2.0" height="20.2" rx="0.9"/><rect x="279.8" y="10.5" width="2.0" height="19.1" rx="0.9"/><rect x="283.2" y="2.9" width="2.0" height="34.3" rx="0.9"/><rect x="286.6" y="10.0" width="2.0" height="20.0" rx="0.9"/><rect x="290.0" y="9.2" width="2.0" height="21.6" rx="0.9"/><rect x="293.4" y="8.5" width="2.0" height="23.1" rx="0.9"/><rect x="296.8" y="5.0" width="2.0" height="29.9" rx="0.9"/><rect x="300.2" y="12.8" width="2.0" height="14.5" rx="0.9"/><rect x="303.6" y="10.9" width="2.0" height="18.3" rx="0.9"/><rect x="307.0" y="10.9" width="2.0" height="18.3" rx="0.9"/><rect x="310.4" y="7.5" width="2.0" height="25.0" rx="0.9"/><rect x="313.8" y="7.0" width="2.0" height="26.1" rx="0.9"/><rect x="317.2" y="5.7" width="2.0" height="28.5" rx="0.9"/><rect x="320.6" y="10.2" width="2.0" height="19.5" rx="0.9"/><rect x="324.0" y="8.7" width="2.0" height="22.7" rx="0.9"/><rect x="327.4" y="9.0" width="2.0" height="22.0" rx="0.9"/><rect x="330.8" y="4.2" width="2.0" height="31.7" rx="0.9"/><rect x="334.2" y="3.8" width="2.0" height="32.3" rx="0.9"/><rect x="337.6" y="11.5" width="2.0" height="17.0" rx="0.9"/><rect x="341.0" y="11.8" width="2.0" height="16.4" rx="0.9"/><rect x="344.4" y="12.0" width="2.0" height="15.9" rx="0.9"/><rect x="347.8" y="12.8" width="2.0" height="14.3" rx="0.9"/><rect x="351.2" y="12.3" width="2.0" height="15.5" rx="0.9"/><rect x="354.6" y="12.5" width="2.0" height="15.0" rx="0.9"/><rect x="358.0" y="14.4" width="2.0" height="11.2" rx="0.9"/><rect x="361.4" y="15.0" width="2.0" height="10.0" rx="0.9"/><rect x="364.8" y="11.4" width="2.0" height="17.3" rx="0.9"/><rect x="368.2" y="10.8" width="2.0" height="18.5" rx="0.9"/><rect x="371.6" y="8.2" width="2.0" height="23.5" rx="0.9"/><rect x="375.0" y="4.0" width="2.0" height="32.1" rx="0.9"/><rect x="378.4" y="5.7" width="2.0" height="28.6" rx="0.9"/><rect x="381.8" y="7.0" width="2.0" height="26.0" rx="0.9"/><rect x="385.2" y="5.9" width="2.0" height="28.2" rx="0.9"/><rect x="388.6" y="5.4" width="2.0" height="29.1" rx="0.9"/><rect x="392.0" y="11.7" width="2.0" height="16.6" rx="0.9"/><rect x="395.4" y="4.3" width="2.0" height="31.3" rx="0.9"/><rect x="398.8" y="6.2" width="2.0" height="27.5" rx="0.9"/><rect x="402.2" y="6.5" width="2.0" height="27.1" rx="0.9"/><rect x="405.6" y="8.1" width="2.0" height="23.7" rx="0.9"/><rect x="409.0" y="11.4" width="2.0" height="17.3" rx="0.9"/><rect x="412.4" y="10.3" width="2.0" height="19.5" rx="0.9"/><rect x="415.8" y="11.9" width="2.0" height="16.2" rx="0.9"/><rect x="419.2" y="6.2" width="2.0" height="27.6" rx="0.9"/><rect x="422.6" y="11.1" width="2.0" height="17.8" rx="0.9"/><rect x="426.0" y="10.7" width="2.0" height="18.7" rx="0.9"/><rect x="429.4" y="8.9" width="2.0" height="22.3" rx="0.9"/><rect x="432.8" y="9.2" width="2.0" height="21.5" rx="0.9"/><rect x="436.2" y="7.3" width="2.0" height="25.3" rx="0.9"/><rect x="439.6" y="10.7" width="2.0" height="18.7" rx="0.9"/><rect x="443.0" y="11.5" width="2.0" height="16.9" rx="0.9"/><rect x="446.4" y="10.5" width="2.0" height="19.0" rx="0.9"/><rect x="449.8" y="11.6" width="2.0" height="16.9" rx="0.9"/><rect x="453.2" y="10.0" width="2.0" height="19.9" rx="0.9"/><rect x="456.6" y="13.6" width="2.0" height="12.9" rx="0.9"/><rect x="460.0" y="7.6" width="2.0" height="24.9" rx="0.9"/><rect x="463.4" y="8.5" width="2.0" height="23.1" rx="0.9"/><rect x="466.8" y="11.6" width="2.0" height="16.8" rx="0.9"/><rect x="470.2" y="10.1" width="2.0" height="19.9" rx="0.9"/><rect x="473.6" y="8.7" width="2.0" height="22.7" rx="0.9"/><rect x="477.0" y="8.1" width="2.0" height="23.7" rx="0.9"/></svg>');
+  background-size: 480px 100%; background-repeat: repeat-x;
+  opacity: 0.8;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 1400px) {
+  .nle__body { grid-template-columns: 190px minmax(0, 1fr); }
+  .nle__inspector { display: none; }
+}
+@media (max-width: 1050px) {
+  .nle { padding-top: 104px; }
+  .nle__body { grid-template-columns: 1fr; }
+  .nle__browser { border-right: 0; border-bottom: 1px solid var(--glass-line); order: 2; }
+  .nle__bin { grid-template-columns: repeat(5, 1fr); }
+  .nle__viewer { order: 1; padding: 12px; }
+  .nle__screen { min-height: 0; display: block; }
+  .nle__portrait { position: relative; right: auto; height: auto; width: 60%; max-width: 260px;
+    margin: 18px auto -1px; display: block;
+    -webkit-mask-image: none; mask-image: none; }
+  .nle__copy { max-width: none; }
+}
+@media (max-width: 560px) {
+  .nle__bin { grid-template-columns: repeat(3, 1fr); }
+  .nle__clip-role { display: none; }
+  .nle__ruler span:nth-child(even) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nle__scan, .nle__rec, .nle__scope span, .nle__playhead { animation: none; }
+  .nle__playhead { left: 34%; }
+  .nle__scope span { height: 45%; }
+}
+
 /* ---------- Hero ---------- */
 .hero {
   position: relative; min-height: 100vh; min-height: 100svh;
@@ -1064,7 +1342,7 @@ body.vbox-open { overflow: hidden; }
    than <main>, so the full-bleed marquee keeps running edge to edge. */
 @media (min-width: 901px) {
   .nav { display: none; }
-  .hero, .section, .stats, .page-head, .footer {
+  .hero, .nle, .section, .stats, .page-head, .footer {
     padding-right: calc(var(--pad) + var(--gutter));
   }
   /* No fixed header up here — the dial replaces it — so the hero loses the

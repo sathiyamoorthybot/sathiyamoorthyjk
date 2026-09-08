@@ -341,6 +341,38 @@
     }
   }
 
+  /* ---- NLE hero: run the timecode with the playhead ----
+     The playhead sweeps the timeline on a 15s CSS loop; this counts the
+     same 15 seconds out in the viewer so the two read as one transport.
+     It only runs while the section is on screen. ---- */
+  (function () {
+    var tc = document.querySelector(".nle__tc");
+    if (!tc) return;
+    var SPAN = 15;                       // seconds, matching --nle-play
+    var live = true, raf = null, t0 = performance.now();
+
+    function frame(now) {
+      var t = ((now - t0) / 1000) % SPAN;
+      var f = Math.floor((t % 1) * 24);
+      tc.textContent = "00:00:" + pad(Math.floor(t)) + ":" + pad(f);
+      raf = live ? requestAnimationFrame(frame) : null;
+    }
+    function pad(n) { return ("0" + n).slice(-2); }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      tc.textContent = "00:00:05:00";
+      return;
+    }
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        live = entries[0].isIntersecting;
+        if (live && !raf) raf = requestAnimationFrame(frame);
+      }, { threshold: 0 }).observe(tc.closest(".nle"));
+    } else {
+      raf = requestAnimationFrame(frame);
+    }
+  })();
+
   /* ---- Smooth-scroll offset for fixed nav ---- */
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {
     link.addEventListener("click", function (e) {
