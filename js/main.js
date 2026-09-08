@@ -160,7 +160,6 @@
     { sel: ".nle__portrait",      speed: -30 },
     { sel: ".stat__num",          speed: -22 },
     { sel: ".section__index",     speed: -20 },
-    { sel: ".contact__portrait",  speed: -26 },
     // thumbs are clipped by their frame, so drift must stay inside the
     // overscan that --zoom buys us (see .work-video__thumb in the CSS)
     { sel: ".work-video__thumb",  speed:   9 }

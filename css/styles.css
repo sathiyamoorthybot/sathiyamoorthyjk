@@ -279,7 +279,7 @@ em { font-style: italic; color: var(--accent); }
 /* ---- the three panels ---- */
 .nle__body {
   flex: 1 1 auto; min-height: 0;
-  display: grid; grid-template-columns: 220px minmax(0, 1fr) 310px;
+  display: grid; grid-template-columns: 288px minmax(0, 1fr) 310px;
   border-bottom: 1px solid var(--glass-line);
 }
 .nle__panel-head {
@@ -311,27 +311,28 @@ em { font-style: italic; color: var(--accent); }
 }
 .nle__bin::-webkit-scrollbar-track { background: transparent; }
 .nle__bin {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
   padding: 10px; align-content: start;
 }
 .nle__clip {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  padding: 8px 5px 7px; cursor: default;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: flex-start; gap: 5px; min-height: 96px;
+  padding: 11px 5px 9px; cursor: default;
   border-radius: 10px; text-align: center;
   background: rgba(10, 18, 36, 0.45);
   border: 1px solid transparent;
   transition: transform 0.35s var(--ease), border-color 0.3s, background 0.3s;
 }
 .nle__clip img {
-  width: 27px; height: 27px; object-fit: contain;
+  width: 31px; height: 31px; object-fit: contain;
   filter: drop-shadow(0 4px 10px rgba(0, 6, 20, 0.6));
 }
 .nle__clip-name {
-  font-size: 10px; line-height: 1.2; color: var(--text);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+  font-size: 11px; line-height: 1.22; color: var(--text);
+  max-width: 100%; overflow-wrap: break-word;
 }
 .nle__clip-role {
-  font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.6px;
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.7px;
   text-transform: uppercase; color: var(--faint);
 }
 .nle__clip:hover {
@@ -370,12 +371,12 @@ em { font-style: italic; color: var(--accent); }
   0%, 8%   { background-position: -50% 0; }
   70%,100% { background-position: 150% 0; }
 }
-.nle__copy { position: relative; z-index: 2; padding: clamp(20px, 3.4cqi, 52px); max-width: 56%; }
+.nle__copy { position: relative; z-index: 2; padding: clamp(20px, 3.4cqi, 52px); max-width: 64%; }
 /* Mid viewer — no inspector, so the panel is narrower than the wide case
    but still two-up: the copy takes more of the width and the portrait comes
    back inside the frame rather than crowding the text. */
 @container (max-width: 1080px) {
-  .nle__copy { max-width: 66%; }
+  .nle__copy { max-width: 70%; }
   .nle__portrait { max-width: 46%; height: 100%; bottom: 0; object-position: bottom; }
 }
 /* Narrow viewer: the portrait stops competing with the copy and drops back
@@ -403,7 +404,7 @@ em { font-style: italic; color: var(--accent); }
 .nle__title em { font-style: italic; color: var(--accent); }
 .nle__lead {
   font-size: clamp(0.9rem, 2.1cqi, 1.22rem); color: #bbcae3;
-  max-width: 34ch; margin-bottom: 28px;
+  max-width: 45ch; margin-bottom: 28px;
 }
 .nle__lead strong { color: var(--text); font-weight: 600; }
 .nle__actions { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -528,7 +529,7 @@ em { font-style: italic; color: var(--accent); }
 
 /* ---- responsive ---- */
 @media (max-width: 1440px) {
-  .nle__body { grid-template-columns: 190px minmax(0, 1fr); }
+  .nle__body { grid-template-columns: 252px minmax(0, 1fr); }
   .nle__inspector { display: none; }
 }
 @media (max-width: 1050px) {
@@ -1120,8 +1121,8 @@ body.vbox-open { overflow: hidden; }
    the invitation reads down the right. The card clips, so the photo takes
    the card's own corners instead of carrying its own. */
 .contact__inner {
-  max-width: 1180px; margin: 0 auto; overflow: hidden;
-  display: grid; grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  max-width: 1320px; margin: 0 auto; overflow: hidden;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
   align-items: stretch;
   border-radius: 28px;
   background: var(--glass); border: 1px solid var(--glass-line);
@@ -1131,10 +1132,8 @@ body.vbox-open { overflow: hidden; }
 .contact__figure { position: relative; margin: 0; min-height: 100%; }
 .contact__portrait {
   display: block; width: 100%; height: 100%; min-height: 460px;
-  object-fit: cover; object-position: 50% 22%;
+  object-fit: cover; object-position: 50% 18%;
   background: none; border: 0; border-radius: 0; box-shadow: none;
-  transform: translate3d(0, var(--par-y, 0px), 0) scale(1.14);
-  will-change: transform;
 }
 /* just enough shade at the foot for the name to sit on; the columns meet
    on a hairline rather than a band of shadow */
