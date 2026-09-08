@@ -366,7 +366,7 @@
     var slot = document.querySelector(".nle__role");
     if (!slot) return;
     var ROLES = [
-      "Broadcast Production Specialist",
+      "Video Production Specialist",
       "Media Producer",
       "AI-Powered Video Editor",
       "Motion Graphics Artist",
